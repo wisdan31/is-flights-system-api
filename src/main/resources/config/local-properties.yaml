@@ -1,0 +1,14 @@
+api:
+  basepath: "is-flights-sa/api/${api.version}"
+  version: "v1"
+
+http:
+  host: "localhost"
+  port: "8089"
+
+db:
+  host: "mudb.mule-training.com"
+  port: "3306"
+  user: "mule"
+  password: "mule"
+  database: "training"

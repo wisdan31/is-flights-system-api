@@ -1,0 +1,63 @@
+#%RAML 1.0 DataType
+
+properties:
+
+  ID:
+    type: integer
+    displayName: Id
+    description: Unique identifier for the flight.
+    example: 1
+
+  code:
+    type: string
+    displayName: Flight Code
+    description: Airline flight code consisting of the airline code and numeric identifier.
+    example: "AA123"
+
+  price:
+    type: number
+    displayName: Price
+    description: Ticket price for the flight in the default system currency.
+    example: 250
+
+  departureDate:
+    type: date-only
+    displayName: Departure Date
+    description: Scheduled departure date and time of the flight.
+    example: "2025-01-15"
+
+  origin:
+    type: string
+    displayName: Origin Airport
+    description: IATA code of the airport from which the flight departs.
+    example: "SFO"
+
+  destination:
+    type: string
+    displayName: Destination Airport
+    description: IATA code of the airport where the flight is scheduled to arrive.
+    example: "LAX"
+
+  emptySeats:
+    type: integer
+    displayName: Empty Seats
+    description: Number of available seats remaining on the flight.
+    example: 43
+
+  plane:
+    type: object
+    displayName: Plane Information
+    description: Details about the aircraft operating the flight.
+    properties:
+
+      type:
+        type: string
+        displayName: Plane Type
+        description: Aircraft model or type used for this flight.
+        example: "Airbus A320"
+
+      totalSeats:
+        type: integer
+        displayName: Total Seats
+        description: Total seating capacity of the aircraft.
+        example: 180

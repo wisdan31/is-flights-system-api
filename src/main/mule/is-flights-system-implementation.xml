@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+
+<sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
+		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="e639483f-d9cb-4a46-8eba-b4f3ee4eac66" variableName="destination" />
+		<db:select doc:name="Select flights" doc:id="e6ee4a8f-dc34-409f-8cb1-a2cd77ad21fa" config-ref="Database_Config" >
+			<db:sql ><![CDATA[SELECT * FROM flights
+WHERE (:destination IS NULL OR toAirport = :destination)
+]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{ destination: vars.destination}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="a85b0f15-f7be-4821-9a73-152f2a710204" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (flight) -> {
+    ID: flight.ID,
+    code: (flight.code1 default "") ++ (flight.code2 default ""),
+    price: flight.price default 0,
+    departureDate: flight.takeOffDate as String default "",
+    origin: flight.fromAirport default "",
+    destination: flight.toAirport default "",
+    emptySeats: flight.seatsAvailable default 0,
+    plane: {
+        "type": flight.planeType default "",
+        totalSeats: flight.totalSeats default 0
+    }
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+    <flow name="getFlightById" doc:id="bdd3e4b2-1035-4336-a74b-ac1dcf8e1719">
+		<set-variable value="#[attributes.uriParams.flightId]" doc:name="flightId" doc:id="755bb614-870d-432b-a946-12a0ae826cf0" variableName="flightId"/>
+		<db:select doc:name="Select flight" doc:id="51772ea4-5009-4f9d-862a-b64df44d24fd" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM american
+WHERE ID = :Id;]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{ Id: vars.flightId }]]]></db:input-parameters>
+		</db:select>
+		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="d638384b-f576-46f6-8306-8e211fc54b34" message='Flight with this ID not found.'/>
+		<ee:transform doc:name="Transform Message" doc:id="35d315cc-125c-4087-a7bf-27c08b1a6d32" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (flight) -> {
+	ID: flight.ID,
+	code: (flight.code1 default "") ++ (flight.code2 default ""),
+	price: flight.price default 0,
+	departureDate: flight.takeOffDate as String default "",
+	origin: flight.fromAirport default "",
+	destination: flight.toAirport default "",
+	emptySeats: flight.seatsAvailable default 0,
+	plane: {
+		"type": flight.planeType default "",
+		totalSeats: flight.totalSeats default 0
+	}
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="69eff4d0-d73d-4a5d-bbd6-4dc2aacb19f2" >
+				<set-payload value='#[output application/json --- { "message": error.description }]' doc:name="error.message" doc:id="46a33ea1-7aae-4f71-ba6b-7044265d4d62" />
+				<set-variable value="404" doc:name="httpStatus" doc:id="ac3bf372-38d7-4b55-9505-3c436644f88f" variableName="httpStatus"/>
+			</on-error-propagate>
+		</error-handler>
+    </flow>
+</mule>
