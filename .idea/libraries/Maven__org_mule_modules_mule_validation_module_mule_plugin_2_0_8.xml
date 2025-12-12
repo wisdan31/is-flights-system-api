@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.modules:mule-validation-module:mule-plugin:2.0.8" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.modules" artifactId="mule-validation-module" version="2.0.8" classifier="mule-plugin" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-validation-module/2.0.8/mule-validation-module-2.0.8-mule-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-validation-module/2.0.8/mule-validation-module-2.0.8-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-validation-module/2.0.8/mule-validation-module-2.0.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

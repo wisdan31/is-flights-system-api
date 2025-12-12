@@ -20,13 +20,11 @@ tmp/**/*
 *.bak
 *.swp
 *~.nib
-*.wev
 local.properties
 .settings/
 .loadpath
 .project
 .classpath
-reports/**
 
 # External tool builders
 .externalToolBuilders/
@@ -44,14 +42,6 @@ reports/**
 # Studio-specific #
 # --------------- #
 target/
-.mule/**
-.mule/**/*
+.mule/
 .DS_Store
 velocity.log
-
-# --------------- #
-# IDEA-specific #
-# --------------- #
-.idea
-*.iml
-/.factorypath

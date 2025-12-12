@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.connectors:mule-sockets-connector:mule-plugin:1.2.7" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.connectors" artifactId="mule-sockets-connector" version="1.2.7" classifier="mule-plugin" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-sockets-connector/1.2.7/mule-sockets-connector-1.2.7-mule-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-sockets-connector/1.2.7/mule-sockets-connector-1.2.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-sockets-connector/1.2.7/mule-sockets-connector-1.2.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

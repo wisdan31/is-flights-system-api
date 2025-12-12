@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.modules:mule-apikit-module:mule-plugin:1.11.7" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.modules" artifactId="mule-apikit-module" version="1.11.7" classifier="mule-plugin" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-apikit-module/1.11.7/mule-apikit-module-1.11.7-mule-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-apikit-module/1.11.7/mule-apikit-module-1.11.7-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/modules/mule-apikit-module/1.11.7/mule-apikit-module-1.11.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

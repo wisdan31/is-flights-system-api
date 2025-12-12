@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.connectors:mule-db-connector:mule-plugin:1.14.17" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.connectors" artifactId="mule-db-connector" version="1.14.17" classifier="mule-plugin" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-db-connector/1.14.17/mule-db-connector-1.14.17-mule-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-db-connector/1.14.17/mule-db-connector-1.14.17-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-db-connector/1.14.17/mule-db-connector-1.14.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.mycompany:is-flights-domain-project:mule-domain:1.0.0-SNAPSHOT" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.mycompany" artifactId="is-flights-domain-project" version="1.0.0-SNAPSHOT" classifier="mule-domain" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mycompany/is-flights-domain-project/1.0.0-SNAPSHOT/is-flights-domain-project-1.0.0-SNAPSHOT-mule-domain.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mycompany/is-flights-domain-project/1.0.0-SNAPSHOT/is-flights-domain-project-1.0.0-SNAPSHOT-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/mycompany/is-flights-domain-project/1.0.0-SNAPSHOT/is-flights-domain-project-1.0.0-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

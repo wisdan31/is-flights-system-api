@@ -13,8 +13,5 @@ http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="b8cb2628-2302-4452-82fb-3b8b3ad543c8" >
 		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
 	</db:config>
-	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1438c845-5d6a-4534-a318-a40578733f8a">
-		<http:listener-connection host="${http.host}" port="${http.port}" />
-	</http:listener-config>
-	<global-property doc:name="Global Property" doc:id="5bec7e04-bf04-4c63-aa81-6a6563cfb6c5" name="env" value="local" />
+	<global-property doc:name="Global Property" doc:id="d3288775-e657-4e3f-ae5b-78284237cabb" name="env" value="local" />
 </mule>

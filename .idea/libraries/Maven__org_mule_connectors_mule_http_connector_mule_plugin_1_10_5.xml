@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.connectors:mule-http-connector:mule-plugin:1.10.5" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.connectors" artifactId="mule-http-connector" version="1.10.5" classifier="mule-plugin" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-http-connector/1.10.5/mule-http-connector-1.10.5-mule-plugin.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-http-connector/1.10.5/mule-http-connector-1.10.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/connectors/mule-http-connector/1.10.5/mule-http-connector-1.10.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

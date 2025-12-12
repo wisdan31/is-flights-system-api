@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: com.github.amlorg:amf-aml_2.12:6.6.2" type="java-imported" external-system-id="Maven">
+    <properties groupId="com.github.amlorg" artifactId="amf-aml_2.12" version="6.6.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/amlorg/amf-aml_2.12/6.6.2/amf-aml_2.12-6.6.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/amlorg/amf-aml_2.12/6.6.2/amf-aml_2.12-6.6.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/github/amlorg/amf-aml_2.12/6.6.2/amf-aml_2.12-6.6.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

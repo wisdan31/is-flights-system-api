@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.apikit:parser-service:2.7.11" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.apikit" artifactId="parser-service" version="2.7.11" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/apikit/parser-service/2.7.11/parser-service-2.7.11.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/apikit/parser-service/2.7.11/parser-service-2.7.11-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/apikit/parser-service/2.7.11/parser-service-2.7.11-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

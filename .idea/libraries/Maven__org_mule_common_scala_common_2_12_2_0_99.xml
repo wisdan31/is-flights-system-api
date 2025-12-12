@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.common:scala-common_2.12:2.0.99" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.common" artifactId="scala-common_2.12" version="2.0.99" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/common/scala-common_2.12/2.0.99/scala-common_2.12-2.0.99.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/common/scala-common_2.12/2.0.99/scala-common_2.12-2.0.99-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/common/scala-common_2.12/2.0.99/scala-common_2.12-2.0.99-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

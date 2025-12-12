@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.mule.syaml:syaml_2.12:2.0.335" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.mule.syaml" artifactId="syaml_2.12" version="2.0.335" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/syaml/syaml_2.12/2.0.335/syaml_2.12-2.0.335.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/syaml/syaml_2.12/2.0.335/syaml_2.12-2.0.335-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/mule/syaml/syaml_2.12/2.0.335/syaml_2.12-2.0.335-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
