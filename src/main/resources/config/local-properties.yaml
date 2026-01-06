@@ -1,4 +1,5 @@
 api:
+  name: "is-flights-sa"
   basepath: "is-flights-sa/api/${api.version}"
   version: "v1"
 
