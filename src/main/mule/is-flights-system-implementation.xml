@@ -87,6 +87,7 @@ ErrorUtils::getErrorStructure(
 )]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
+				<flow-ref doc:name="logError" doc:id="c7c84988-3460-4330-977b-8d8a3caea00b" name="logError"/>
 			</on-error-continue>
 		</error-handler>
     </flow>

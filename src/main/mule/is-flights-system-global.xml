@@ -15,4 +15,5 @@ http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org
 	</db:config>
 	<global-property doc:name="Global Property" doc:id="d3288775-e657-4e3f-ae5b-78284237cabb" name="env" value="local" />
 	<import doc:name="Import" doc:id="afade261-efaf-4c88-a740-07b68e04f1ba" file="global-error-handler.xml" />
+	<import doc:name="Import" doc:id="8ffdf802-0a94-4032-a108-2f05844fb361" file="logging.xml" />
 </mule>
