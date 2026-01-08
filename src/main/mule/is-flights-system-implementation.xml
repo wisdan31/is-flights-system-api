@@ -11,12 +11,15 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 
 <sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
 		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="e639483f-d9cb-4a46-8eba-b4f3ee4eac66" variableName="destination" />
+		<set-variable value='#[{ "status": "Get American Flights request"}]' doc:name="logMessage" doc:id="de8b3680-7d20-41d8-9a1f-56fcc67fc8be" variableName="logMessage" />
+		<flow-ref doc:name="logAudit" doc:id="9c570a10-1f71-4cdb-b948-07ca140ab36f" name="logAudit" />
 		<db:select doc:name="Select flights" doc:id="e6ee4a8f-dc34-409f-8cb1-a2cd77ad21fa" config-ref="Database_Config" >
 			<db:sql ><![CDATA[SELECT * FROM flights
 WHERE (:destination IS NULL OR toAirport = :destination)
 ]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{ destination: vars.destination}]]]></db:input-parameters>
 		</db:select>
+		<set-variable value='#[{ "status": "Get flights from DB",&#10;	"fetchedRecords": sizeOf(payload)&#10;}]' doc:name="logMessage" doc:id="416bb672-c274-41aa-935e-9234925a14aa" variableName="logMessage" />
 		<ee:transform doc:name="Transform Message" doc:id="a85b0f15-f7be-4821-9a73-152f2a710204" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
@@ -41,6 +44,8 @@ payload map (flight) -> {
 	</sub-flow>
 	<flow name="getFlightById" doc:id="bdd3e4b2-1035-4336-a74b-ac1dcf8e1719">
 		<set-variable value="#[attributes.uriParams.flightId]" doc:name="flightId" doc:id="755bb614-870d-432b-a946-12a0ae826cf0" variableName="flightId"/>
+		<set-variable value='#[{ "status": "Get American Flight request"}]' doc:name="logMessage" doc:id="10887a46-aef7-4a2a-8017-7a885ab79b00" variableName="logMessage"/>
+		<flow-ref doc:name="logAudit" doc:id="d84ecf7f-5cbe-46e3-a155-07cf61fca4fa" name="logAudit"/>
 		<db:select doc:name="Select flight" doc:id="51772ea4-5009-4f9d-862a-b64df44d24fd" config-ref="Database_Config">
 			<db:sql ><![CDATA[SELECT * FROM american
 WHERE ID = :Id;]]></db:sql>
@@ -49,6 +54,7 @@ WHERE ID = :Id;]]></db:sql>
 		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="d638384b-f576-46f6-8306-8e211fc54b34" message='Flight with this ID not found.'>
 			<error-mapping targetType="APP:FLIGHT_NOT_FOUND" />
 		</validation:is-not-empty-collection>
+		<set-variable value='#[{ "status": "Get flight from DB",&#10;	"fetchedRecords": sizeOf(payload)&#10;}]' doc:name="logMessage" doc:id="4003e5f3-21d5-43b0-b49b-5d5223fc9fac" variableName="logMessage" />
 		<ee:transform doc:name="Transform Message" doc:id="35d315cc-125c-4087-a7bf-27c08b1a6d32" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
