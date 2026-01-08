@@ -81,9 +81,9 @@ import modules::ErrorUtils
 ---
 ErrorUtils::getErrorStructure(
     {
-        description: "Flight with this ID not found"
+        description: error.description
     },
-    "APP:FLIGHT_NOT_FOUND"
+    error.errorType.namespace ++ ":" ++ error.errorType.identifier
 )]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
