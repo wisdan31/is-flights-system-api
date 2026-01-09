@@ -77,7 +77,7 @@ payload map (flight) -> {
 			</ee:message>
 		</ee:transform>
 		<error-handler>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="44c3445f-3584-4b9b-a00c-631bfab7d39f" >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="44c3445f-3584-4b9b-a00c-631bfab7d39f" type="APP:FLIGHT_NOT_FOUND">
 				<set-variable value="#[404 as Number]" doc:name="httpStatus" doc:id="b5da8635-9502-4dd3-ac06-6de7f7a8e26c" variableName="httpStatus" />
 				<ee:transform doc:name="Transform Message" doc:id="7f90f7d4-7f3d-43da-b8b9-02f8d604c51b" >
 					<ee:message >
@@ -87,9 +87,9 @@ import modules::ErrorUtils
 ---
 ErrorUtils::getErrorStructure(
     {
-        description: "Flight with this ID not found"
+        description: error.description
     },
-    "APP:FLIGHT_NOT_FOUND"
+    error.errorType.namespace ++ ":" ++ error.errorType.identifier
 )]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
