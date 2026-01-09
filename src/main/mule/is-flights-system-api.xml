@@ -11,7 +11,6 @@
          </http:error-response> 
      </http:listener> 
      <apikit:router config-ref="api-config" />
-		<logger level="INFO" doc:name="Logger" doc:id="87d48758-88e0-4804-a03b-c25bfe12243d" message='#["WE ARE BACK IN MAIN! Status is: " ++ (vars.httpStatus default "NULL")]'/>
 		<error-handler ref="global_error_handler" /> 
  </flow>
     <flow name="api-console">
