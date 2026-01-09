@@ -8,10 +8,11 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd">
-	<apikit:config name="api-config" api="is-flights-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+	<apikit:config name="api-config" api="is-flights-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" queryParamsStrictValidation="true"/>
 	<configuration-properties doc:name="Configuration properties" doc:id="d4654369-0286-4ca9-9ff4-c5b865f75c3a" file="config/${env}-properties.yaml" />
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="b8cb2628-2302-4452-82fb-3b8b3ad543c8" >
 		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
 	</db:config>
 	<global-property doc:name="Global Property" doc:id="d3288775-e657-4e3f-ae5b-78284237cabb" name="env" value="local" />
+	<import doc:name="Import" doc:id="afade261-efaf-4c88-a740-07b68e04f1ba" file="global-error-handler.xml" />
 </mule>
