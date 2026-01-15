@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="task2_listener" doc:id="62c06548-add8-40bd-9973-ee0a57f00c20" >
+		<amqp:listener doc:name="Listener" doc:id="05e80f73-bcf2-44c8-ae10-f047e41aa5a6" config-ref="AMQP_Config" queueName="mulesoft-queue" ackMode="MANUAL" numberOfConsumers="2" >
+			<amqp:listener-quality-of-service-config prefetchCount="1" />
+		</amqp:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="b2dd0019-ac49-4cce-95a0-f84f6796fbe3" message="#[output application/java --- '[x] Received ' ++ (payload as String) ++ ' | Delivery Tag: ' ++ (attributes.envelope.deliveryTag as String)]" />
+		<ee:transform doc:name="Transform Message" doc:id="b607ec2e-e827-464d-8ab7-5bc74f08f924" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import wait from dw::Runtime
+output application/java
+// 1. Convert payload to String automatically to find dots
+var content = payload as String
+// 2. Count dots
+var dots = sizeOf(content find ".")
+---
+// 3. Wait (sleep) for N milliseconds, then return the original payload
+wait(payload, dots * 1000)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger1" doc:id="d6ef4f67-d753-41ee-a587-e9d3dadb2de8" message="#['[x] Done with Tag: ' ++ (attributes.envelope.deliveryTag as String)]" />
+		<amqp:ack doc:name="Ack" doc:id="91247d04-3e0e-43ff-8c31-bcfbd19ddfa3" ackId="#[attributes.ackId]" />
+	</flow>
+	<flow name="task2_start" doc:id="ce60a55b-ae64-4461-bba7-0511697e5f5a" >
+		<http:listener doc:name="task" doc:id="372fc94f-9cc9-4d35-9ecb-5c5ce70986f6" config-ref="HTTP_Listener_config" path="/task2/start" />
+		<amqp:publish doc:name="Publish" doc:id="407ee6ad-0e0a-4ff5-90a0-7a84366f73ef" config-ref="AMQP_Config" >
+			<amqp:routing-keys >
+				<amqp:routing-key value="mulesoft-queue" />
+			</amqp:routing-keys>
+		</amqp:publish>
+	</flow>
+</mule>

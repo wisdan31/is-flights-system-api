@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
+	xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/scripting http://www.mulesoft.org/schema/mule/scripting/current/mule-scripting.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="task1_publishHello" doc:id="0a58146e-92c1-45ac-968a-3ba8d195da75">
+		<http:listener doc:name="Listener" doc:id="d5dc56bb-26a8-4e8a-b8fb-bb52110d874e" config-ref="HTTP_Listener_config" path="/task1/publishHello" allowedMethods="POST" />
+		<amqp:publish doc:name="Publish" doc:id="f9b59694-ac5f-413d-92ec-0201b3cf767f" config-ref="AMQP_Config">
+			<amqp:routing-keys>
+				<amqp:routing-key value="mulesoft-queue" />
+			</amqp:routing-keys>
+		</amqp:publish>
+	</flow>
+	<flow name="task1_consumeHello" doc:id="5c2a0c1a-481b-46f3-b035-5455f124cc8b" >
+		<http:listener doc:name="consumeHello" doc:id="9c90a8f6-1419-4951-94ff-9faeed85dce8" config-ref="HTTP_Listener_config" path="/task1/consumeHello" allowedMethods="GET"/>
+		<amqp:consume doc:name="Consume" doc:id="88301757-4455-4300-ae85-1785ceb803dd" config-ref="AMQP_Config" queueName="mulesoft-queue"/>
+	</flow>
+</mule>
