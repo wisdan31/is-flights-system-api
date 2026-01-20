@@ -17,10 +17,13 @@ http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amq
 			</amqp:message>
 		</amqp:publish>
 	</flow>
-	<flow name="task4_rabbitmqFlow" doc:id="7464a52c-6ac5-42eb-8967-145774b4297a" >
-		<amqp:listener doc:name="Listener" doc:id="441daaf9-ff98-4cc8-92ce-45c3bdaa8ac5" config-ref="AMQP_Config" queueName="info_logs">
-			<amqp:fallback-queue-definition exchangeToBind="task4" bindingRoutingKey="INFO" />
+	<flow name="task4_infoListener" doc:id="7464a52c-6ac5-42eb-8967-145774b4297a" >
+		<amqp:listener doc:name="Listener" doc:id="441daaf9-ff98-4cc8-92ce-45c3bdaa8ac5" config-ref="AMQP_Config" queueName="task4_queue">
 		</amqp:listener>
-		<logger level="INFO" doc:name="Logger" doc:id="c03ff40b-ad3a-438f-a16b-eec91ea18751" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="c03ff40b-ad3a-438f-a16b-eec91ea18751" message='#[output text/plain --- "\n" ++ "Logged: " ++ payload]'/>
+	</flow>
+	<flow name="task4_rabbitmqFlow" doc:id="476d51fc-a589-4220-8c88-8f5bda7d409a" >
+		<amqp:listener doc:name="Listener" doc:id="41a377f1-38b2-424a-b2ed-faf8f8ede98d" config-ref="AMQP_Config" queueName="task4_error_queue"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0ea0a956-d6fe-4ead-abe1-d7ebb3be4bc7" message='#[output text/plain --- "\n" ++ "Wrote to disk: " ++ payload]' />
 	</flow>
 </mule>
