@@ -8,6 +8,7 @@ http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amq
 	<flow name="task4_emitLog" doc:id="0d88f561-1eb8-41d0-8422-caac9a807ef8" >
 		<http:listener doc:name="Listener" doc:id="aa39cccd-5b24-4c27-b3e0-50c3017ac9e6" config-ref="HTTP_Listener_config" path="/task4/emitLog"/>
 		<set-variable value="#[payload.severity]" doc:name="severity" doc:id="fa59b604-06fe-4d7f-8265-b475893eca68" variableName="severity"/>
+		<flow-ref doc:name="logInitialRequest" doc:id="de846d21-2faf-4809-9e3b-984cd425aa8a" name="logInitialRequest" />
 		<amqp:publish doc:name="Publish" doc:id="971f3954-7431-40ab-9b20-f00d218dff40" config-ref="AMQP_Config" exchangeName="task4">
 			<amqp:routing-keys >
 				<amqp:routing-key value="#[vars.severity]" />
@@ -17,13 +18,15 @@ http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amq
 			</amqp:message>
 		</amqp:publish>
 	</flow>
-	<flow name="task4_infoListener" doc:id="7464a52c-6ac5-42eb-8967-145774b4297a" >
+	<flow name="task4_logger" doc:id="7464a52c-6ac5-42eb-8967-145774b4297a" >
 		<amqp:listener doc:name="Listener" doc:id="441daaf9-ff98-4cc8-92ce-45c3bdaa8ac5" config-ref="AMQP_Config" queueName="task4_queue">
 		</amqp:listener>
-		<logger level="INFO" doc:name="Logger" doc:id="c03ff40b-ad3a-438f-a16b-eec91ea18751" message='#[output text/plain --- "\n" ++ "Logged: " ++ payload]'/>
+		<set-variable value='#[{ "log": payload}]' doc:name="logMessage" doc:id="703b9364-d525-4665-a960-4d9da909a138" variableName="logMessage"/>
+		<flow-ref doc:name="logAudit" doc:id="df49c629-f075-47d5-b61c-846def1d1371" name="logAudit"/>
 	</flow>
-	<flow name="task4_rabbitmqFlow" doc:id="476d51fc-a589-4220-8c88-8f5bda7d409a" >
+	<flow name="task4_errorWriter" doc:id="476d51fc-a589-4220-8c88-8f5bda7d409a" >
 		<amqp:listener doc:name="Listener" doc:id="41a377f1-38b2-424a-b2ed-faf8f8ede98d" config-ref="AMQP_Config" queueName="task4_error_queue"/>
-		<logger level="INFO" doc:name="Logger" doc:id="0ea0a956-d6fe-4ead-abe1-d7ebb3be4bc7" message='#[output text/plain --- "\n" ++ "Wrote to disk: " ++ payload]' />
+		<set-variable value='#[{ "log": payload}]' doc:name="logMessage" doc:id="b9c19f8e-7aff-4dbd-9de7-14883cb7d93e" variableName="logMessage" />
+		<flow-ref doc:name="logAudit" doc:id="7957a054-fb14-4d1b-ac4c-f575575d896e" name="logAudit" />
 	</flow>
 </mule>
