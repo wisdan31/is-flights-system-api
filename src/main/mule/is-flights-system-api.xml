@@ -34,7 +34,61 @@
     <flow name="get:\flights\(flightId):api-config">
         <flow-ref doc:name="getFlightById" doc:id="5056e25c-a0cf-449e-a0d2-25a31e584b9e" name="getFlightById" />
     </flow>
-    <flow name="get:\country-weather\(countryName):api-config">
-		<flow-ref doc:name="getCountryWeather" doc:id="5116abf2-5447-418c-9b42-116f2954d712" name="getCountryWeather"/>
+    <flow name="get:\countries:api-config">
+		<flow-ref doc:name="getCountries" doc:id="a3cb25c1-1035-4a1b-b3c7-6e8162f44ec4" name="getCountries"/>
+    </flow>
+    <flow name="get:\weather:api-config">
+        <ee:transform doc:name="Transform Message">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  coord: {
+    lon: -0.1257,
+    lat: 51.5085
+  },
+  weather: [
+    {
+      id: 804,
+      main: "Clouds",
+      description: "overcast clouds",
+      icon: "04d"
+    }
+  ],
+  base: "stations",
+  main: {
+    temp: 6.87,
+    feels_like: 3.84,
+    temp_min: 5.95,
+    temp_max: 7.36,
+    pressure: 997,
+    humidity: 84,
+    sea_level: 997,
+    grnd_level: 992
+  },
+  visibility: 10000,
+  wind: {
+    speed: 4.63,
+    deg: 90
+  },
+  clouds: {
+    all: 100
+  },
+  dt: 1769693513,
+  sys: {
+    "type": 2,
+    id: 2075535,
+    country: "GB",
+    sunrise: 1769672613,
+    sunset: 1769705007
+  },
+  timezone: 0,
+  id: 2643743,
+  name: "London",
+  cod: 200
+} as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
     </flow>
 </mule>

@@ -33,12 +33,42 @@ types:
               example: !include examples/flight-example.json
 
 
+/countries:
+  get:
+    description: Retrieve a list of countries and info about capitals
+    queryParameters:
+      codes:
+        description: Code(s) of the  country(ies) to filter by
+        required: true
+        type: string
+        example: "ua,pl"
 
-/country-weather:
-  /{countryName}:
-    get:
-      responses:
-        200:
-          body:
-            application/json:
-              example: !include examples/country-weather-example.json
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/countries-example.json
+
+/weather:
+  get:
+    description: Retrieve weather information for city
+    queryParameters:
+      city:
+        description: Name of the city to get weather for
+        required: true
+        type: string
+        example: "Kyiv"
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/weather-example.json
+
+# /country-weather:
+#   /{countryName}:
+#     get:
+#       responses:
+#         200:
+#           body:
+#             application/json:
+#               example: !include examples/country-weather-example.json
