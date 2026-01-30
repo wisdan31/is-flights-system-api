@@ -6,6 +6,7 @@ types:
   Flight: !include datatypes/Flight.raml
 
 /flights:
+
   get:
     queryParameters:
       destination?:
@@ -30,3 +31,14 @@ types:
             application/json:
               type: Flight
               example: !include examples/flight-example.json
+
+
+
+/country-weather:
+  /{countryName}:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/country-weather-example.json

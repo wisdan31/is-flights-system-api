@@ -105,20 +105,18 @@ ErrorUtils::getErrorStructure(
 			</on-error-continue>
 		</error-handler>
     </flow>
-    
-    <flow name="countryWeather" doc:id="54f7ceca-9f47-446f-b215-4fd09b98779f" >
-		<http:listener doc:name="GET /country-weather" doc:id="b67ad597-0b78-4ea0-b965-cbf4ac4b34f2" config-ref="HTTP_Listener_config" path="/country-weather/{country}"/>
-		<flow-ref doc:name="getCountries" doc:id="34178810-c05d-4b52-b5b8-5f05b839f26e" name="getCountries"/>
-		<ee:transform doc:name="Transform Message" doc:id="2449c74e-4f40-4e1b-a18a-4b581b262c87" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+	<sub-flow name="getCountryWeather" doc:id="5c4b03a0-403e-4417-8e42-e496ae5b8594" >
+		<flow-ref doc:name="getCountries" doc:id="34178810-c05d-4b52-b5b8-5f05b839f26e" name="getCountries" />
+		<ee:transform doc:name="Transform Message" doc:id="2449c74e-4f40-4e1b-a18a-4b581b262c87">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 payload map $.name]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<flow-ref doc:name="getWeather" doc:id="7f2f46e8-2071-45d7-83a6-9e9c87cfaf55" name="getWeather"/>
-	</flow>
+		<flow-ref doc:name="getWeather" doc:id="7f2f46e8-2071-45d7-83a6-9e9c87cfaf55" name="getWeather" />
+	</sub-flow>
 	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f" >
 		<ee:transform doc:name='Set and Encode variable "country"' doc:id="9df4bae6-3a3b-45b0-831e-91650b04877e">
 			<ee:message>
@@ -128,7 +126,7 @@ payload map $.name]]></ee:set-payload>
 import * from dw::core::URL
 output application/java
 ---
-encodeURIComponent(attributes.uriParams.country)]]></ee:set-variable>
+encodeURIComponent(attributes.uriParams.countryName)]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/name/{country}">

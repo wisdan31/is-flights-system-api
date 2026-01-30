@@ -1,0 +1,46 @@
+[
+    {
+        "coord": {
+            "lon": 32,
+            "lat": 49
+        },
+        "weather": [
+            {
+                "id": 804,
+                "main": "Clouds",
+                "description": "overcast clouds",
+                "icon": "04d"
+            }
+        ],
+        "base": "stations",
+        "main": {
+            "temp": 1.43,
+            "feels_like": -1.17,
+            "temp_min": 1.43,
+            "temp_max": 1.43,
+            "pressure": 1002,
+            "humidity": 100,
+            "sea_level": 1002,
+            "grnd_level": 981
+        },
+        "visibility": 94,
+        "wind": {
+            "speed": 2.34,
+            "deg": 31,
+            "gust": 3.71
+        },
+        "clouds": {
+            "all": 100
+        },
+        "dt": 1769696692,
+        "sys": {
+            "country": "UA",
+            "sunrise": 1769664415,
+            "sunset": 1769697782
+        },
+        "timezone": 7200,
+        "id": 690791,
+        "name": "Ukraine",
+        "cod": 200
+    }
+]
