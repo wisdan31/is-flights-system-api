@@ -37,11 +37,11 @@ types:
   get:
     description: Retrieve a list of countries and info about capitals
     queryParameters:
-      codes:
-        description: Code(s) of the  country(ies) to filter by
+      region:
+        description: Name of the region to retrieve countries from
         required: true
         type: string
-        example: "ua,pl"
+        example: "europe"
 
     responses:
       200:

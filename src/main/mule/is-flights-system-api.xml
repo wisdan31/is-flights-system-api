@@ -35,9 +35,9 @@
         <flow-ref doc:name="getFlightById" doc:id="5056e25c-a0cf-449e-a0d2-25a31e584b9e" name="getFlightById" />
     </flow>
     <flow name="get:\countries:api-config">
-		<flow-ref doc:name="getCountries" doc:id="a3cb25c1-1035-4a1b-b3c7-6e8162f44ec4" name="getCountries"/>
+        <flow-ref doc:name="getCountries" doc:id="a3cb25c1-1035-4a1b-b3c7-6e8162f44ec4" name="getCountries" />
     </flow>
     <flow name="get:\weather:api-config">
-		<flow-ref doc:name="getWeather" doc:id="90f69030-5300-424a-9d9c-76abe19d7b41" name="getWeather"/>
+        <flow-ref doc:name="getWeather" doc:id="90f69030-5300-424a-9d9c-76abe19d7b41" name="getWeather" />
     </flow>
 </mule>

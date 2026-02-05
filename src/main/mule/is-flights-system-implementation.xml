@@ -123,12 +123,16 @@ payload]]></ee:set-payload>
 		</ee:transform>
 	</sub-flow>
 	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f">
-		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/alpha">
+		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/region/{region}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"region" : attributes.queryParams.region
+}]]]></http:uri-params>
 			<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"codes" : attributes.queryParams.codes,
-	"fields" : "name,capital,capitalInfo"
+	"fields" : "name,capital,capitalInfo,cca2"
 }]]]></http:query-params>
 		</http:request>
 		<ee:transform doc:name="Transform Message" doc:id="a691fe71-eb28-4cd9-a56f-fd1157127311">
@@ -142,7 +146,8 @@ payload map (country, index) -> {
         name: country.capital[0], 
         lat: country.capitalInfo.latlng[0],
         lng: country.capitalInfo.latlng[1]
-    }
+    },
+    code: lower(country.cca2)
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
