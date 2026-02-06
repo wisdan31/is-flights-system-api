@@ -118,7 +118,27 @@ ErrorUtils::getErrorStructure(
 				<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{
+	location: {
+		city: payload.name,
+		lon: payload.coord.lon,
+		lat: payload.coord.lat
+	},
+	weather: {
+		main: payload.weather[0].main,
+		description: payload.weather[0].description,
+		temperature: payload.main.temp,
+		pressure: payload.main.pressure,
+		humidity: payload.main.humidity,
+		visibility: payload.visibility,
+		wind: {
+			speed: payload.wind.speed,
+			deg: payload.wind.deg
+		},
+		snow: payload.snow."1h" default 0,
+		clouds: payload.clouds.all
+	}
+}]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>

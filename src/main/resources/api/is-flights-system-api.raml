@@ -4,6 +4,7 @@ version: v1
 
 types:
   Flight: !include datatypes/Flight.raml
+  Weather: !include datatypes/Weather.raml
 
 /flights:
 
@@ -62,7 +63,7 @@ types:
       200:
         body:
           application/json:
-            example: !include examples/weather-example.json
+            type: Weather
 
 # /country-weather:
 #   /{countryName}:

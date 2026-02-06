@@ -1,0 +1,101 @@
+#%RAML 1.0 DataType
+
+properties:
+
+    location:
+        type: object
+        displayName: Location
+        description: Geographical location for which the weather information is provided.
+        properties:
+
+            city:
+                type: string
+                displayName: City
+                description: Name of the city for the location.
+                example: "Kyiv"
+
+            lon:
+                type: number
+                displayName: Longitude
+                description: Longitude of the location in decimal degrees.
+                example: 30.5167
+            
+            lat: 
+                type: number
+                displayName: Latitude
+                description: Latitude of the location in decimal degrees.
+                example: 50.4500
+    
+    weather:
+        type: object
+        displayName: Weather Information
+        description: Current weather conditions at the location.
+        properties:
+
+            main:
+                type: string
+                displayName: Weather Main
+                description: Group of weather parameters (Rain, Snow, Extreme etc.).
+                example: "Snow"
+
+            description: 
+                type: string
+                displayName: Weather Description
+                description: Detailed weather condition within the group.
+                example: "light snow"
+
+            temperature:
+                type: number
+                displayName: Temperature
+                description: Temperature at the location in degrees Celsius.
+                example: -5.16
+
+            pressure:
+                type: integer
+                displayName: Pressure
+                description: Atmospheric pressure at the location in hPa.
+                example: 1013
+
+            humidity:
+                type: integer
+                displayName: Humidity
+                description: Humidity percentage at the location.
+                example: 93
+
+            visibility:
+                type: integer
+                displayName: Visibility
+                description: Visibility distance at the location in meters.
+                example: 10000
+
+            wind:
+                type: object
+                displayName: Wind Information
+                description: Details about the wind conditions at the location.
+                properties:
+
+                    speed:
+                        type: number
+                        displayName: Wind Speed
+                        description: Wind speed at the location in meters per second.
+                        example: 3.6
+
+                    deg:
+                        type: integer
+                        displayName: Wind Direction
+                        description: Wind direction in degrees (meteorological).
+                        example: 180
+            
+            snow:
+                type: number
+                displayName: Snow Volume
+                description: Snow volume for the last 1 hour in mm.
+                example: 0.11
+            
+            clouds:
+                type: integer
+                displayName: Cloudiness
+                description: Cloudiness percentage at the location.
+                example: 90
+
+            

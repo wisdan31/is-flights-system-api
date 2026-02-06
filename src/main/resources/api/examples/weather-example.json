@@ -1,45 +1,21 @@
 {
-    "coord": {
-        "lon": -0.1257,
-        "lat": 51.5085
-    },
-    "weather": [
-        {
-            "id": 804,
-            "main": "Clouds",
-            "description": "overcast clouds",
-            "icon": "04d"
-        }
-    ],
-    "base": "stations",
-    "main": {
-        "temp": 6.87,
-        "feels_like": 3.84,
-        "temp_min": 5.95,
-        "temp_max": 7.36,
-        "pressure": 997,
-        "humidity": 84,
-        "sea_level": 997,
-        "grnd_level": 992
-    },
+  "location": {
+    "city": "Kyiv",
+    "lon": 30.5167,
+    "lat": 50.4500
+  },
+  "weather": {
+    "main": "Snow",
+    "description": "light snow",
+    "temperature": -5.16,
+    "pressure": 1013,
+    "humidity": 93,
     "visibility": 10000,
     "wind": {
-        "speed": 4.63,
-        "deg": 90
+      "speed": 3.6,
+      "deg": 180
     },
-    "clouds": {
-        "all": 100
-    },
-    "dt": 1769693513,
-    "sys": {
-        "type": 2,
-        "id": 2075535,
-        "country": "GB",
-        "sunrise": 1769672613,
-        "sunset": 1769705007
-    },
-    "timezone": 0,
-    "id": 2643743,
-    "name": "London",
-    "cod": 200
+    "snow": 0.11,
+    "clouds": 90
+  }
 }
