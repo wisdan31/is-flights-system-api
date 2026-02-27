@@ -143,11 +143,11 @@ output application/json
 		</ee:transform>
 	</sub-flow>
 	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f">
-		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/region/{region}">
+		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}">
 			<http:uri-params ><![CDATA[#[output application/java
 ---
 {
-	"region" : attributes.queryParams.region
+	"subregion" : attributes.queryParams.subregion
 }]]]></http:uri-params>
 			<http:query-params><![CDATA[#[output application/java
 ---
