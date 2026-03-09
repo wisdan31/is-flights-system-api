@@ -44,6 +44,6 @@
 		<flow-ref doc:name="getWeatherSnapshot" doc:id="e40b93b2-ea3f-441f-94ca-fecd9e50b79b" name="getWeatherSnapshot"/>
     </flow>
     <flow name="post:\weatherSnapshot:application\json:api-config">
-        <logger level="INFO" message="post:\weatherSnapshot:application\json:api-config" />
+		<flow-ref doc:name="upsertWeatherSnapshot" doc:id="5db60dfe-e036-46bc-b6e0-f8ac8826cbc3" name="upsertWeatherSnapshot"/>
     </flow>
 </mule>

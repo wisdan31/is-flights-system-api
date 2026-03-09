@@ -143,27 +143,9 @@ output application/json
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<sub-flow name="getWeatherSnapshot" doc:id="3b38db9a-c5ce-45a6-aa9e-89f2f8dd2211" >
-		<mongo:find-documents doc:name="Retrieve Weather Snapshot" doc:id="4702d589-ed5e-41ca-af52-bdcb2461a825" config-ref="MongoDB_Config" collectionName="weatherSnapshots" fields=','>
-			<mongo:query ><![CDATA[#[%dw 2.0
-output application/json
----
-{
-  "countryCode": attributes.queryParams.countryCode
-}]]]></mongo:query>
-		</mongo:find-documents>
-		<ee:transform doc:name="Transform Message" doc:id="48c1c0c5-0c58-4476-a9f0-39ad387e8315" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-payload]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-	</sub-flow>
 	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f">
 		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}">
-			<http:uri-params ><![CDATA[#[output application/java
+			<http:uri-params><![CDATA[#[output application/java
 ---
 {
 	"subregion" : attributes.queryParams.subregion
@@ -190,5 +172,28 @@ payload map (country, index) -> {
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getWeatherSnapshot" doc:id="3b38db9a-c5ce-45a6-aa9e-89f2f8dd2211" >
+		<mongo:find-documents doc:name="Retrieve Weather Snapshot" doc:id="4702d589-ed5e-41ca-af52-bdcb2461a825" config-ref="MongoDB_Config" collectionName="weatherSnapshots" fields=','>
+			<mongo:query ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "countryCode": attributes.queryParams.countryCode
+}]]]></mongo:query>
+		</mongo:find-documents>
+		<ee:transform doc:name="Transform Message" doc:id="48c1c0c5-0c58-4476-a9f0-39ad387e8315" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="upsertWeatherSnapshot" doc:id="bcd668f7-566d-44d8-a767-ff4f8cb6e061" >
+		<mongo:update-documents doc:name="Upsert document" doc:id="c1a7cf3a-932b-48c1-aeb4-717c1eea13cd" config-ref="MongoDB_Config" collectionName="weatherSnapshots" upsert="true">
+			<mongo:query ><![CDATA[#[{"countryCode": payload.countryCode}]]]></mongo:query>
+		</mongo:update-documents>
 	</sub-flow>
 </mule>
