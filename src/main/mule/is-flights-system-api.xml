@@ -40,4 +40,10 @@
     <flow name="get:\weather:api-config">
         <flow-ref doc:name="getWeather" doc:id="90f69030-5300-424a-9d9c-76abe19d7b41" name="getWeather" />
     </flow>
+    <flow name="get:\weatherSnapshot:api-config">
+		<flow-ref doc:name="getWeatherSnapshot" doc:id="e40b93b2-ea3f-441f-94ca-fecd9e50b79b" name="getWeatherSnapshot"/>
+    </flow>
+    <flow name="post:\weatherSnapshot:application\json:api-config">
+        <logger level="INFO" message="post:\weatherSnapshot:application\json:api-config" />
+    </flow>
 </mule>

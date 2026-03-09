@@ -1,0 +1,23 @@
+{
+  "countryCode": "MD",
+  "capital": {
+    "city": "Chișinău",
+    "longitude": 28.8575,
+    "latitude": 47.0056,
+    "weatherConditions": {
+      "visibility": 10000,
+      "temperature": {
+        "degrees": "Celsius",
+        "current": 9.24
+      },
+      "pressure": 1024,
+      "humidity": 53,
+      "wind": {
+        "speed": 7.2,
+        "deg": 10
+      }
+    }
+  },
+  "country": "Moldova",
+  "lastUpdated": "2026-03-06T10:39:26.000Z"
+}
