@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
-	xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:amqp="http://www.mulesoft.org/schema/mule/amqp"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd 
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd
 http://www.mulesoft.org/schema/mule/amqp http://www.mulesoft.org/schema/mule/amqp/current/mule-amqp.xsd
-http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 	<apikit:config name="api-config" api="is-flights-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" queryParamsStrictValidation="true"/>
 	<configuration-properties doc:name="Configuration properties" doc:id="d4654369-0286-4ca9-9ff4-c5b865f75c3a" file="config/${env}-properties.yaml" />
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="b8cb2628-2302-4452-82fb-3b8b3ad543c8" >
@@ -27,4 +30,17 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 	<mongo:config name="MongoDB_Config" doc:name="MongoDB Config" doc:id="28c18b99-65fe-4be9-a0b5-69835a3097e3" >
 		<mongo:connection-string-connection connectionString="${mongodb.connection_string}" />
 	</mongo:config>
+	<http:request-config name="OpenWeather_Request_Config" doc:name="HTTP Request config" doc:id="1e5aa567-33bc-4a5f-ac86-4fafef95a743" basePath="/data/2.5" >
+		<http:request-connection protocol="HTTPS" host="api.openweathermap.org" />
+		<http:default-query-params >
+			<http:query-param key="appid" value="87296d5a25619dbc0f2d13b664bcc0ea" />
+			<http:query-param key="units" value="metric" />
+		</http:default-query-params>
+	</http:request-config>
+	<ee:object-store-caching-strategy name="Countries_Caching_Strategy" doc:name="Caching Strategy" doc:id="d4da9631-ea3c-42b4-a362-561d307ae58f" keyGenerationExpression="#[vars.subregion]" >
+		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" alias="countries-cache-store"/>
+	</ee:object-store-caching-strategy>
+	<ee:object-store-caching-strategy name="Weather_Caching_Strategy" doc:name="Caching Strategy" doc:id="97fd0607-401b-466c-b87d-560040e4cec7" keyGenerationExpression="#[vars.city]">
+		<os:private-object-store alias="weather-cache-store" entryTtl="15" entryTtlUnit="MINUTES" expirationInterval="5" />
+	</ee:object-store-caching-strategy>
 </mule>

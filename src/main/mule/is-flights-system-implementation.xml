@@ -12,16 +12,7 @@ http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/ba
 http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
 http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 
-	<http:request-config name="OpenWeather_Request_Config" doc:name="HTTP Request config" doc:id="5728dca8-6ec9-4be0-8421-2866f66e3976" basePath="/data/2.5" >
-		<http:request-connection protocol="HTTPS" host="api.openweathermap.org" />
-		<http:default-query-params >
-			<http:query-param key="appid" value="87296d5a25619dbc0f2d13b664bcc0ea" />
-			<http:query-param key="units" value="metric" />
-		</http:default-query-params>
-	</http:request-config>
-	<ee:object-store-caching-strategy name="Countries_Caching_Strategy" doc:name="Caching Strategy" doc:id="116b0412-abdb-4136-891d-24f9c22b1765" keyGenerationExpression="#[vars.subregion]" >
-		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" alias="countries-cache-store"/>
-	</ee:object-store-caching-strategy>
+	
 	<sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
 		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="e639483f-d9cb-4a46-8eba-b4f3ee4eac66" variableName="destination" />
 		<set-variable value='#[{ "status": "Get American Flights request"}]' doc:name="logMessage" doc:id="de8b3680-7d20-41d8-9a1f-56fcc67fc8be" variableName="logMessage" />
@@ -111,13 +102,16 @@ ErrorUtils::getErrorStructure(
 		</error-handler>
     </flow>
 	<sub-flow name="getWeather" doc:id="bc46af63-dff9-4ba0-b699-0b887cccc2fe" >
-		<http:request doc:name="Request" doc:id="4e2fb968-96ab-4a26-8243-90ad51884fbc" config-ref="OpenWeather_Request_Config" path="/weather">
+		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="688c88de-5f11-4983-bbff-a76904fa3311" variableName="city"/>
+		<ee:cache doc:name="Cache" doc:id="2402b5dc-aa56-432e-a20a-5df210236cc4" cachingStrategy-ref="Weather_Caching_Strategy">
+			<http:request doc:name="openWeather" doc:id="4e2fb968-96ab-4a26-8243-90ad51884fbc" config-ref="OpenWeather_Request_Config" path="/weather">
 						<http:query-params><![CDATA[#[output application/java
 ---
 {
-	"q" : attributes.queryParams.city
+	"q" : vars.city
 }]]]></http:query-params>
 					</http:request>
+		</ee:cache>
 		<ee:transform doc:name="Transform Message" doc:id="116d7633-355b-4c5d-9daa-317e25ad31d6">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
