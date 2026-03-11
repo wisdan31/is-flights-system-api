@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
-http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 
 	<http:request-config name="OpenWeather_Request_Config" doc:name="HTTP Request config" doc:id="5728dca8-6ec9-4be0-8421-2866f66e3976" basePath="/data/2.5" >
 		<http:request-connection protocol="HTTPS" host="api.openweathermap.org" />
@@ -18,6 +19,9 @@ http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mo
 			<http:query-param key="units" value="metric" />
 		</http:default-query-params>
 	</http:request-config>
+	<ee:object-store-caching-strategy name="Countries_Caching_Strategy" doc:name="Caching Strategy" doc:id="116b0412-abdb-4136-891d-24f9c22b1765" keyGenerationExpression="#[vars.subregion]" >
+		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" alias="countries-cache-store"/>
+	</ee:object-store-caching-strategy>
 	<sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
 		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="e639483f-d9cb-4a46-8eba-b4f3ee4eac66" variableName="destination" />
 		<set-variable value='#[{ "status": "Get American Flights request"}]' doc:name="logMessage" doc:id="de8b3680-7d20-41d8-9a1f-56fcc67fc8be" variableName="logMessage" />
@@ -144,7 +148,9 @@ output application/json
 		</ee:transform>
 	</sub-flow>
 	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f">
-		<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}">
+		<set-variable value="#[attributes.queryParams.subregion]" doc:name="subregion" doc:id="b67f33f1-e694-494e-91e8-927d1a2fa310" variableName="subregion"/>
+		<ee:cache doc:name="Cache" doc:id="f07ee19c-bb10-4aab-bb66-59842a62f703" cachingStrategy-ref="Countries_Caching_Strategy">
+			<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}">
 			<http:uri-params><![CDATA[#[output application/java
 ---
 {
@@ -156,6 +162,7 @@ output application/json
 	"fields" : "name,capital,capitalInfo,cca2"
 }]]]></http:query-params>
 		</http:request>
+		</ee:cache>
 		<ee:transform doc:name="Transform Message" doc:id="a691fe71-eb28-4cd9-a56f-fd1157127311">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0
