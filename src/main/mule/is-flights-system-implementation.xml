@@ -192,6 +192,9 @@ payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
+	<sub-flow name="insertDeadLetter" doc:id="bbd06113-5926-4f9d-92a5-8334eb5f36b4" >
+		<mongo:insert-document doc:name="Insert document" doc:id="bc93eabb-2d37-44ca-8fcd-cc5ade0b8732" config-ref="MongoDB_Config" collectionName="deadLetters"/>
+	</sub-flow>
 	<sub-flow name="upsertWeatherSnapshot" doc:id="bcd668f7-566d-44d8-a767-ff4f8cb6e061" >
 		<mongo:update-documents doc:name="Upsert document" doc:id="c1a7cf3a-932b-48c1-aeb4-717c1eea13cd" config-ref="MongoDB_Config" collectionName="weatherSnapshots" upsert="true">
 			<mongo:query ><![CDATA[#[{"countryCode": payload.countryCode}]]]></mongo:query>

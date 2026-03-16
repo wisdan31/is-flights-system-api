@@ -88,3 +88,12 @@ types:
     responses:
       200:
         description: Weather information successfully saved to the database.
+
+/deadLettersOffice:
+  post:
+    description: Save failed message to database for further analysis and processing
+    body:
+      application/json:
+    responses:
+      200:
+        description: Saved failed message to the database for further analysis and processing.

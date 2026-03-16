@@ -41,9 +41,12 @@
         <flow-ref doc:name="getWeather" doc:id="90f69030-5300-424a-9d9c-76abe19d7b41" name="getWeather" />
     </flow>
     <flow name="get:\weatherSnapshot:api-config">
-		<flow-ref doc:name="getWeatherSnapshot" doc:id="e40b93b2-ea3f-441f-94ca-fecd9e50b79b" name="getWeatherSnapshot"/>
+        <flow-ref doc:name="getWeatherSnapshot" doc:id="e40b93b2-ea3f-441f-94ca-fecd9e50b79b" name="getWeatherSnapshot" />
     </flow>
     <flow name="post:\weatherSnapshot:application\json:api-config">
-		<flow-ref doc:name="upsertWeatherSnapshot" doc:id="5db60dfe-e036-46bc-b6e0-f8ac8826cbc3" name="upsertWeatherSnapshot"/>
+        <flow-ref doc:name="upsertWeatherSnapshot" doc:id="5db60dfe-e036-46bc-b6e0-f8ac8826cbc3" name="upsertWeatherSnapshot" />
+    </flow>
+    <flow name="post:\deadLettersOffice:application\json:api-config">
+		<flow-ref doc:name="Flow Reference" doc:id="a9d8b419-b517-411e-b5a0-d649356ec0f6" name="insertDeadLetter" />
     </flow>
 </mule>
