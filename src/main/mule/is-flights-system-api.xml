@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd  http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd">
-    <flow name="is-flights-system-apiFlow" doc:id="90830274-4a02-48b1-a9f5-22bad0effc03" >
-		<ee:transform doc:name="Transform Message" doc:id="73bea8a8-aff4-46a0-9a15-fbc918de9032" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-output application/java
----
-{
-}]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-	</flow>
-	<flow name="api-main"> 
-     <http:listener path="${api.basepath}/*" config-ref="HTTP_Listener_config"> 
-         <http:response statusCode="#[vars.httpStatus default 200]"> 
-             <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers> 
-         </http:response> 
-         <http:error-response statusCode="#[vars.httpStatus default 500]"> 
-             <http:body><![CDATA[#[payload]]]></http:body> 
-             <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers> 
-         </http:error-response> 
-     </http:listener> 
-     <flow-ref doc:name="logInitialRequest" doc:id="ab483ed8-a732-4c98-bfbc-87030873144b" name="logInitialRequest" />
-		<apikit:router config-ref="api-config" />
-		<flow-ref doc:name="logFinalResponse" doc:id="0dc973c9-e3b6-4cf0-9c0f-e6163830dfd9" name="logFinalResponse" />
-		<error-handler ref="global_error_handler" /> 
- </flow>
+    <flow name="api-main">
+        <http:listener path="${api.basepath}/*" config-ref="HTTP_Listener_config">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <flow-ref doc:name="logInitialRequest" doc:id="ab483ed8-a732-4c98-bfbc-87030873144b" name="logInitialRequest" />
+        <apikit:router config-ref="api-config" />
+        <flow-ref doc:name="logFinalResponse" doc:id="0dc973c9-e3b6-4cf0-9c0f-e6163830dfd9" name="logFinalResponse" />
+        <error-handler ref="global_error_handler" />
+    </flow>
     <flow name="api-console">
         <http:listener path="/${api.basepath}/console/*" config-ref="HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -40,9 +29,24 @@ output application/java
         <error-handler ref="global_error_handler" />
     </flow>
     <flow name="get:\flights:api-config" doc:id="cb3d62d1-2df6-4870-ac26-244b059bccd9">
-		<flow-ref doc:name="getFlights" doc:id="5018ffc1-cf3e-493c-9183-94a0aa6af120" name="getFlights"/>
+        <flow-ref doc:name="getFlights" doc:id="5018ffc1-cf3e-493c-9183-94a0aa6af120" name="getFlights" />
     </flow>
     <flow name="get:\flights\(flightId):api-config">
-		<flow-ref doc:name="getFlightById" doc:id="5056e25c-a0cf-449e-a0d2-25a31e584b9e" name="getFlightById"/>
+        <flow-ref doc:name="getFlightById" doc:id="5056e25c-a0cf-449e-a0d2-25a31e584b9e" name="getFlightById" />
+    </flow>
+    <flow name="get:\countries:api-config">
+        <flow-ref doc:name="getCountries" doc:id="a3cb25c1-1035-4a1b-b3c7-6e8162f44ec4" name="getCountries" />
+    </flow>
+    <flow name="get:\weather:api-config">
+        <flow-ref doc:name="getWeather" doc:id="90f69030-5300-424a-9d9c-76abe19d7b41" name="getWeather" />
+    </flow>
+    <flow name="get:\weatherSnapshot:api-config">
+        <flow-ref doc:name="getWeatherSnapshot" doc:id="e40b93b2-ea3f-441f-94ca-fecd9e50b79b" name="getWeatherSnapshot" />
+    </flow>
+    <flow name="post:\weatherSnapshot:application\json:api-config">
+        <flow-ref doc:name="upsertWeatherSnapshot" doc:id="5db60dfe-e036-46bc-b6e0-f8ac8826cbc3" name="upsertWeatherSnapshot" />
+    </flow>
+    <flow name="post:\deadLettersOffice:application\json:api-config">
+		<flow-ref doc:name="Flow Reference" doc:id="a9d8b419-b517-411e-b5a0-d649356ec0f6" name="insertDeadLetter" />
     </flow>
 </mule>

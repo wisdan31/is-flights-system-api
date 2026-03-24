@@ -1,0 +1,54 @@
+{
+    "metadata": {
+        "correlationId": "da63959e-d838-446c-8370-a32c1fc9cc97",
+        "processedAt": "2026-03-20T14:51:20.875Z",
+        "x-death": [
+            {
+                "reason": {
+                    "stream": "rejected",
+                    "bytes": "rejected"
+                },
+                "count": 1,
+                "exchange": {
+                    "stream": "country.city.topic",
+                    "bytes": "country.city.topic"
+                },
+                "time": {
+                    "date": 20,
+                    "hours": 16,
+                    "seconds": 20,
+                    "month": 2,
+                    "timezoneOffset": -120,
+                    "year": 126,
+                    "minutes": 51,
+                    "time": 1774018280000
+                },
+                "day": 5,
+                "routing-keys": [
+                    {
+                        "stream": "moldova.chișinău.updated",
+                        "bytes": "moldova.chișinău.updated"
+                    }
+                ],
+                "queue": {
+                    "stream": "country.city.queue",
+                    "bytes": "country.city.queue"
+                }
+            }
+        ],
+        "error": {
+            "timestamp": "2026-03-20T14:51:20.841Z",
+            "errorType": "MULE:REDELIVERY_EXHAUSTED",
+            "errorDescription": "Maximum redelivery attempts reached. Last error was HTTP:NOT_FOUND."
+        }
+    },
+    "payload": {
+        "name": "Moldova",
+        "capital": {
+            "name": "Chișinău",
+            "lat": 47.01,
+            "lng": 28.9
+        },
+        "code": "md"
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "coord": {
+        "lon": 30.5167,
+        "lat": 50.4333
+    },
+    "weather": [
+        {
+            "id": 600,
+            "main": "Snow",
+            "description": "light snow",
+            "icon": "13d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": -5.16,
+        "feels_like": -5.16,
+        "temp_min": -5.16,
+        "temp_max": -5.16,
+        "pressure": 1009,
+        "humidity": 84,
+        "sea_level": 1009,
+        "grnd_level": 992
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 0.89,
+        "deg": 353,
+        "gust": 2.24
+    },
+    "snow": {
+        "1h": 0.11
+    },
+    "clouds": {
+        "all": 100
+    },
+    "dt": 1770383690,
+    "sys": {
+        "type": 2,
+        "id": 2003742,
+        "country": "UA",
+        "sunrise": 1770355538,
+        "sunset": 1770389903
+    },
+    "timezone": 7200,
+    "id": 703448,
+    "name": "Kyiv",
+    "cod": 200
+}

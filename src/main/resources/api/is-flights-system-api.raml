@@ -4,8 +4,10 @@ version: v1
 
 types:
   Flight: !include datatypes/Flight.raml
+  Weather: !include datatypes/Weather.raml
 
 /flights:
+
   get:
     queryParameters:
       destination?:
@@ -30,3 +32,70 @@ types:
             application/json:
               type: Flight
               example: !include examples/flight-example.json
+
+
+/countries:
+  get:
+    description: Retrieve a list of countries and info about capitals
+    queryParameters:
+      subregion:
+        description: Name of the subregion to retrieve countries from
+        required: true
+        type: string
+        example: "Eastern Europe"
+
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/countries-example.json
+
+/weather:
+  get:
+    description: Retrieve weather information for city
+    queryParameters:
+      city:
+        description: Name of the city to get weather for
+        required: true
+        type: string
+        example: "Kyiv"
+    responses:
+      200:
+        body:
+          application/json:
+            type: Weather
+
+/weatherSnapshot:
+  get:
+    description: Retrieve capital weather information from DB for country
+    queryParameters:
+      countryCode:
+        description: Code of the country to get weather snapshot for
+        required: true
+        type: string
+        example: "UA"
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/weather-db-example.json
+        
+  post:
+    description: Save capital weather information to DB for country
+    body:
+      application/json:
+        example: !include examples/weather-db-example.json
+    responses:
+      200:
+        description: Weather information successfully saved to the database.
+
+/deadLettersOffice:
+  post:
+    description: Save failed message to database for further analysis and processing
+    body:
+      application/json:
+        type: object
+        example: !include examples/dead-letter-example.json
+    responses:
+      200:
+        description: Saved failed message to the database for further analysis and processing.

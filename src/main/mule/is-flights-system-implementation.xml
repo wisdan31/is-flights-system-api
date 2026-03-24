@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api"
-	xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo"
+	xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:american-flights-api="http://www.mulesoft.org/schema/mule/american-flights-api" xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/american-flights-api http://www.mulesoft.org/schema/mule/american-flights-api/current/mule-american-flights-api.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
-http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 
-<sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
+	
+	<sub-flow name="getFlights" doc:id="abdaf767-c6fd-4821-a672-452a584a0fb0" >
 		<set-variable value="#[message.attributes.queryParams.destination]" doc:name="destination" doc:id="e639483f-d9cb-4a46-8eba-b4f3ee4eac66" variableName="destination" />
 		<set-variable value='#[{ "status": "Get American Flights request"}]' doc:name="logMessage" doc:id="de8b3680-7d20-41d8-9a1f-56fcc67fc8be" variableName="logMessage" />
 		<flow-ref doc:name="logAudit" doc:id="9c570a10-1f71-4cdb-b948-07ca140ab36f" name="logAudit" />
@@ -97,4 +101,126 @@ ErrorUtils::getErrorStructure(
 			</on-error-continue>
 		</error-handler>
     </flow>
+	<sub-flow name="getWeather" doc:id="bc46af63-dff9-4ba0-b699-0b887cccc2fe" >
+		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="688c88de-5f11-4983-bbff-a76904fa3311" variableName="city"/>
+		<ee:cache doc:name="Cache" doc:id="2402b5dc-aa56-432e-a20a-5df210236cc4" cachingStrategy-ref="Weather_Caching_Strategy">
+			<http:request doc:name="openWeather" doc:id="4e2fb968-96ab-4a26-8243-90ad51884fbc" config-ref="OpenWeather_Request_Config" path="/weather">
+						<http:query-params><![CDATA[#[output application/java
+---
+{
+	"q" : vars.city
+}]]]></http:query-params>
+					</http:request>
+		</ee:cache>
+		<ee:transform doc:name="Transform Message" doc:id="116d7633-355b-4c5d-9daa-317e25ad31d6">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	location: {
+		city: payload.name,
+		lon: payload.coord.lon,
+		lat: payload.coord.lat
+	},
+	weather: {
+		main: payload.weather[0].main,
+		description: payload.weather[0].description,
+		temperature: payload.main.temp,
+		pressure: payload.main.pressure,
+		humidity: payload.main.humidity,
+		visibility: payload.visibility,
+		wind: {
+			speed: payload.wind.speed,
+			deg: payload.wind.deg
+		},
+		snow: payload.snow."1h" default 0,
+		clouds: payload.clouds.all
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getCountries" doc:id="675702c2-2a78-41df-a609-1cd705da478f">
+		<set-variable value="#[attributes.queryParams.subregion]" doc:name="subregion" doc:id="b67f33f1-e694-494e-91e8-927d1a2fa310" variableName="subregion"/>
+		<ee:cache doc:name="Cache" doc:id="f07ee19c-bb10-4aab-bb66-59842a62f703" cachingStrategy-ref="Countries_Caching_Strategy">
+			<http:request doc:name="REST Countries" doc:id="f24cb6e3-3fd3-4677-9b1d-bbfeea10d82f" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}">
+			<http:uri-params><![CDATA[#[output application/java
+---
+{
+	"subregion" : attributes.queryParams.subregion
+}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"fields" : "name,capital,capitalInfo,cca2"
+}]]]></http:query-params>
+		</http:request>
+		</ee:cache>
+		<ee:transform doc:name="Transform Message" doc:id="a691fe71-eb28-4cd9-a56f-fd1157127311">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map (country, index) -> {
+    name: country.name.common,
+    capital: {
+        name: country.capital[0], 
+        lat: country.capitalInfo.latlng[0],
+        lng: country.capitalInfo.latlng[1]
+    },
+    code: upper(country.cca2)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<flow name="getWeatherSnapshot" doc:id="d034b64c-1dd8-4083-8c58-a0d9bf07acee" >
+		<mongo:find-documents doc:name="Retrieve Weather Snapshot" doc:id="4702d589-ed5e-41ca-af52-bdcb2461a825" config-ref="MongoDB_Config" collectionName="weatherSnapshots" fields=",">
+			<mongo:query><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "countryCode": attributes.queryParams.countryCode
+}]]]></mongo:query>
+		</mongo:find-documents>
+		<validation:is-not-null doc:name="Is not null" doc:id="07a1b865-eb76-479b-8078-faec5f35aba8" value="#[payload[0]]" message="Country with this code doesnt exist.">
+			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NOT_FOUND" />
+		</validation:is-not-null>
+		<ee:transform doc:name="Transform Message" doc:id="48c1c0c5-0c58-4476-a9f0-39ad387e8315">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{ id: payload[0]["_id"]["\$oid"] } ++ (payload[0] - "_id")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6b1d2026-8c97-4fac-8af6-ebaf53cf2613" type="APP:NOT_FOUND" >
+				<set-variable value="#[404 as Number]" doc:name="httpStatus" doc:id="3fce4144-3395-440d-b3eb-fa90382ff118" variableName="httpStatus" />
+				<ee:transform doc:name="Transform Message" doc:id="05ba00d9-baed-4c0e-a910-5a3fd3bb8447" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+import modules::ErrorUtils 
+---
+ErrorUtils::getErrorStructure(
+    {
+        description: error.description
+    },
+    error.errorType.namespace ++ ":" ++ error.errorType.identifier
+)]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<flow-ref doc:name="logError" doc:id="02e07625-f869-47a5-9ece-88f87b494b18" name="logError" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<sub-flow name="insertDeadLetter" doc:id="bbd06113-5926-4f9d-92a5-8334eb5f36b4" >
+		<mongo:insert-document doc:name="Insert document" doc:id="bc93eabb-2d37-44ca-8fcd-cc5ade0b8732" config-ref="MongoDB_Config" collectionName="deadLetters"/>
+	</sub-flow>
+	<sub-flow name="upsertWeatherSnapshot" doc:id="bcd668f7-566d-44d8-a767-ff4f8cb6e061" >
+		<mongo:update-documents doc:name="Upsert document" doc:id="c1a7cf3a-932b-48c1-aeb4-717c1eea13cd" config-ref="MongoDB_Config" collectionName="weatherSnapshots" upsert="true">
+			<mongo:query ><![CDATA[#[{"countryCode": payload.countryCode}]]]></mongo:query>
+		</mongo:update-documents>
+	</sub-flow>
 </mule>

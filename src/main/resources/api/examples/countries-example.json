@@ -1,0 +1,11 @@
+[
+    {
+        "name": "Ukraine",
+        "capital": {
+            "name": "Kyiv",
+            "lat": 50.43,
+            "lng": 30.52
+        },
+        "code": "UA"
+    }
+]
