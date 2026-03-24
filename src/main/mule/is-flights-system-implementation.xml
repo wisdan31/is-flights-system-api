@@ -188,7 +188,7 @@ output application/json
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
 ---
-payload]]></ee:set-payload>
+{ id: payload[0]["_id"]["\$oid"] } ++ (payload[0] - "_id")]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
