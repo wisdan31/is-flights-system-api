@@ -11,4 +11,4 @@ db:
   database: "training"
   
 mongodb:
-  connection_string: "mongodb+srv://svc_flights_dev:mulepass@dev-cluster-01.cnxz8nx.mongodb.net/flights_api_db?appName=dev-cluster-01"
+  connection_string: "![YeVJJPbBLyfK0oRw4Yo1d1q1TVPaHD9jjo5VllxfU44tgyyA592U6qScNR+4WI1+qAFng1GMMrRT2C5wlMIJRXmE6dPtEHg/b+4GQ3lOaLMJO5ecYUzUueEXSTYzLN3Y/4WHvr3T4LGq/2hS6/VoA5hkHw4xNJYkGnZ14brdefs=]"
