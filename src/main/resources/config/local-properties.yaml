@@ -12,3 +12,6 @@ db:
   
 mongodb:
   connection_string: "![YeVJJPbBLyfK0oRw4Yo1d1q1TVPaHD9jjo5VllxfU44tgyyA592U6qScNR+4WI1+qAFng1GMMrRT2C5wlMIJRXmE6dPtEHg/b+4GQ3lOaLMJO5ecYUzUueEXSTYzLN3Y/4WHvr3T4LGq/2hS6/VoA5hkHw4xNJYkGnZ14brdefs=]"
+  
+openweather:
+  api_key: "![AoN1QVTUYWzXnwEjp1PhegRrlTa+hzx1ytVSfTkAUDjFeWeBneuprqLq6nr8DJOq]"  
