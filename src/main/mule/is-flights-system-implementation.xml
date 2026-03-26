@@ -217,6 +217,7 @@ ErrorUtils::getErrorStructure(
 	</flow>
 	<sub-flow name="insertDeadLetter" doc:id="bbd06113-5926-4f9d-92a5-8334eb5f36b4" >
 		<mongo:insert-document doc:name="Insert document" doc:id="bc93eabb-2d37-44ca-8fcd-cc5ade0b8732" config-ref="MongoDB_Config" collectionName="deadLetters"/>
+		<set-variable value='#[{"status": "Saved Dead Letter to DB"}]' doc:name="logMessage" doc:id="6187e43d-24b3-4b09-97ef-92045baa337b" variableName="logMessage" />
 	</sub-flow>
 	<sub-flow name="upsertWeatherSnapshot" doc:id="bcd668f7-566d-44d8-a767-ff4f8cb6e061" >
 		<mongo:update-documents doc:name="Upsert document" doc:id="c1a7cf3a-932b-48c1-aeb4-717c1eea13cd" config-ref="MongoDB_Config" collectionName="weatherSnapshots" upsert="true">
