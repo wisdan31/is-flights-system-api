@@ -1,0 +1,15 @@
+[
+  {
+    "ID": 3,
+    "code1": "aa",
+    "code2": "0001",
+    "airlineName": "American Airlines",
+    "toAirport": "LAX",
+    "fromAirport": "MUA",
+    "takeOffDate": "2001-02-03",
+    "price": 500,
+    "planeType": "Boeing 747",
+    "seatsAvailable": 50,
+    "totalSeats": 200
+  }
+]

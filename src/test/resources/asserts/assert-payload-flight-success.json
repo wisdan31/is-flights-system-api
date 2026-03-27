@@ -1,0 +1,15 @@
+[
+  {
+    "ID": 3,
+    "code": "aa0001",
+    "price": 500,
+    "departureDate": "2001-02-03",
+    "origin": "MUA",
+    "destination": "LAX",
+    "emptySeats": 50,
+    "plane": {
+      "type": "Boeing 747",
+      "totalSeats": 200
+    }
+  }
+]
