@@ -31,6 +31,53 @@
 			<munit-tools:assert-equals doc:name="Assert equals" doc:id="af7ec481-3f42-4be7-a163-d34bbe3e189f" actual="#[payload]" expected="#[readUrl('classpath://asserts/assert-payload-flight-success.json', 'application/json')]"/>
 		</munit:validation>
 	</munit:test>
+	<munit:test name="getFlightById-error-test" doc:id="d85030bb-74d1-4bab-b7a9-83d82d62013a" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="bf6695d7-2e8e-482a-b9af-1afcb2f56b59" processor="db:select">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Select flights" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="e6ee4a8f-dc34-409f-8cb1-a2cd77ad21fa" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- []]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="eea9a133-43c0-4bde-ba37-4a6fc5d660f9" >
+				<munit:attributes value="#[{queryParams: {flightId: 34}}]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to getFlightById" doc:id="6928cef1-0517-43ec-910e-f1d0337accdf" name="getFlightById"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert doc:name="Assert expression" doc:id="0f56db77-b4fd-4cea-87f3-fd25492c77d0" >
+				<munit-tools:that ><![CDATA[#[${file::asserts/assert-payload-flight-error.dwl}]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="getWeatherSnapshot-success-test" doc:id="49a3867c-8194-4fab-9ef1-a2ebaa1e5137" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="f50c5c0d-5fcd-46ed-8948-ec5d659ad704" processor="mongo:find-documents">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Retrieve Weather Snapshot" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="4702d589-ed5e-41ca-af52-bdcb2461a825" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="ca7cd2c6-5db0-414d-af6b-1fc56d49261d">
+				<munit:attributes value='#[{queryParams: {countryCode: "UA"}}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to getWeatherSnapshot" doc:id="92ecd759-4bde-4b89-b752-75744fb60cbb" name="getWeatherSnapshot"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test name="is-flights-system-implementation-test-suite-getWeatherTest" doc:id="71555e01-7054-483a-8102-5445d8516465" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to getWeather" doc:id="3d55670b-584a-4384-8fb2-f00c3ed7fd5d" name="getWeather"/>
+		</munit:execution>
+	</munit:test>
 
 
 </mule>
