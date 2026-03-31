@@ -1,7 +1,5 @@
 {
-  "_id": {
-    "$oid": "69a5b461c84d5cfa50d301db"
-  },
+  "id": "69a5b461c84d5cfa50d301db",
   "countryCode": "UA",
   "capital": {
     "city": "Kyiv",
@@ -22,7 +20,5 @@
     }
   },
   "country": "Ukraine",
-  "lastUpdated": {
-    "$date": "2026-03-25T12:40:14.000Z"
-  }
+  "lastUpdated": "2026-03-25T12:40:14.000Z"
 }

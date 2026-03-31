@@ -64,6 +64,9 @@
 					<munit-tools:with-attribute whereValue="4702d589-ed5e-41ca-af52-bdcb2461a825" attributeName="doc:id" />
 					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://mocks/mock-db-find-documents-weather-snapshot-success.json', 'application/json')]" mediaType="application/java" />
+				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
@@ -72,6 +75,9 @@
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to getWeatherSnapshot" doc:id="92ecd759-4bde-4b89-b752-75744fb60cbb" name="getWeatherSnapshot"/>
 		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="86866ec5-6eb4-4d57-9ea9-c5a3d547acc9" actual="#[payload]" expected="#[readUrl('classpath://asserts/assert-payload-weather-snapshot-success.json', 'application/json')]" />
+		</munit:validation>
 	</munit:test>
 
 
