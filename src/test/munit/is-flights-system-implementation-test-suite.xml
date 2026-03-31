@@ -17,7 +17,7 @@
 					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:payload value="#[readUrl('classpath://mocks/mock-db-select-flight-success.json', 'application/json')]" />
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://mocks/mock-db-select-flight-success.json', 'application/json')]" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
@@ -65,7 +65,7 @@
 					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
-					<munit-tools:payload value="#[readUrl('classpath://mocks/mock-db-find-documents-weather-snapshot-success.json', 'application/json')]" mediaType="application/java" />
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://mocks/mock-db-find-documents-weather-snapshot-success.json', 'application/json')]" mediaType="application/java" />
 				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
