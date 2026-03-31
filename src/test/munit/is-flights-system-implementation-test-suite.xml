@@ -73,11 +73,6 @@
 			<flow-ref doc:name="Flow-ref to getWeatherSnapshot" doc:id="92ecd759-4bde-4b89-b752-75744fb60cbb" name="getWeatherSnapshot"/>
 		</munit:execution>
 	</munit:test>
-	<munit:test name="is-flights-system-implementation-test-suite-getWeatherTest" doc:id="71555e01-7054-483a-8102-5445d8516465" description="Test">
-		<munit:execution >
-			<flow-ref doc:name="Flow-ref to getWeather" doc:id="3d55670b-584a-4384-8fb2-f00c3ed7fd5d" name="getWeather"/>
-		</munit:execution>
-	</munit:test>
 
 
 </mule>
