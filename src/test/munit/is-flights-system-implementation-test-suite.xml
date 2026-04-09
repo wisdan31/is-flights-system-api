@@ -23,7 +23,7 @@
 		</munit:behavior>
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="8af75fb6-64eb-45ef-a133-771a595ff060" >
-				<munit:attributes value='#[{ queryParams: {"flightId": 3}}]' />
+				<munit:attributes value='#[{ uriParams: {"flightId": 3}}]' />
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to getFlightById" doc:id="d10a5ed5-2a28-4293-aa7b-290ad10a309f" name="getFlightById"/>
 		</munit:execution>
@@ -35,8 +35,8 @@
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="bf6695d7-2e8e-482a-b9af-1afcb2f56b59" processor="db:select">
 				<munit-tools:with-attributes >
-					<munit-tools:with-attribute whereValue="Select flights" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="e6ee4a8f-dc34-409f-8cb1-a2cd77ad21fa" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="Select flight" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="51772ea4-5009-4f9d-862a-b64df44d24fd" attributeName="doc:id" />
 					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
@@ -46,7 +46,7 @@
 		</munit:behavior>
 		<munit:execution >
 			<munit:set-event doc:name="Set Event" doc:id="eea9a133-43c0-4bde-ba37-4a6fc5d660f9" >
-				<munit:attributes value="#[{queryParams: {flightId: 34}}]" />
+				<munit:attributes value="#[{uriParams: {flightId: 34}}]" />
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to getFlightById" doc:id="6928cef1-0517-43ec-910e-f1d0337accdf" name="getFlightById"/>
 		</munit:execution>
