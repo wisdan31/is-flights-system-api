@@ -1,0 +1,24 @@
+{
+  "id": "69a5b461c84d5cfa50d301db",
+  "countryCode": "UA",
+  "capital": {
+    "city": "Kyiv",
+    "longitude": 30.5167,
+    "latitude": 50.4333,
+    "weatherConditions": {
+      "visibility": 10000,
+      "temperature": {
+        "degrees": "Celsius",
+        "current": 13.43
+      },
+      "pressure": 1010,
+      "humidity": 34,
+      "wind": {
+        "speed": 2.34,
+        "deg": 143
+      }
+    }
+  },
+  "country": "Ukraine",
+  "lastUpdated": "2026-03-25T12:40:14.000Z"
+}
