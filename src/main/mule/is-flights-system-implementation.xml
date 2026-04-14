@@ -234,4 +234,17 @@ payload]]></ee:set-payload>
 		</ee:transform>
 		<http:request doc:name="POST hooks.slack.com" doc:id="36fdf463-c983-4b7f-9cb8-bad81aa3755e" url="${secure::slack.webhook_url}" method="POST" outputMimeType="application/json"/>
 	</sub-flow>
+	<sub-flow name="saveAlertToDb" doc:id="5242d2d6-0adf-454f-81f2-e40e17cecced" >
+		<mongo:insert-document collectionName="weatherAlerts" doc:name="Insert document" doc:id="a300d17f-7171-4f3d-980c-ab147d2ce234" config-ref="MongoDB_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="32993231-f098-4df0-a444-331495949f5b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Successfully saved alert to DB."
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
 </mule>
