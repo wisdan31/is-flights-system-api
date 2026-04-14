@@ -15,3 +15,6 @@ mongodb:
   
 openweather:
   api_key: "![AoN1QVTUYWzXnwEjp1PhegRrlTa+hzx1ytVSfTkAUDjFeWeBneuprqLq6nr8DJOq]"  
+
+slack:
+  webhook_url: "![wI8NyBYEW6Qijhw5km1SUHJ1OcJRmAOh8/yYs3jqlfUMs7CNC7hX02YZxUaToKOz38RYiHKaATEe2siXIHuPuZebZcmzVvohsom+75yFbiRU71fnomwd7FJW3okgXLSK]"

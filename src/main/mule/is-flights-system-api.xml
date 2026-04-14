@@ -47,6 +47,9 @@
         <flow-ref doc:name="upsertWeatherSnapshot" doc:id="5db60dfe-e036-46bc-b6e0-f8ac8826cbc3" name="upsertWeatherSnapshot" />
     </flow>
     <flow name="post:\deadLettersOffice:application\json:api-config">
-		<flow-ref doc:name="Flow Reference" doc:id="a9d8b419-b517-411e-b5a0-d649356ec0f6" name="insertDeadLetter" />
+        <flow-ref doc:name="Flow Reference" doc:id="a9d8b419-b517-411e-b5a0-d649356ec0f6" name="insertDeadLetter" />
+    </flow>
+    <flow name="post:\slack:application\json:api-config">
+		<flow-ref doc:name="Flow Reference" doc:id="3fab52e1-0431-45fa-b81c-640c49fab131" name="sendSlackMessage"/>
     </flow>
 </mule>
