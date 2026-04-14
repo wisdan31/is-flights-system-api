@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-04-14T18:00:00Z",
+  "city": "London",
+  "severity": "CRITICAL",
+  "visibility": 800,
+  "message": "Logistics halted due to severe visibility conditions."
+}

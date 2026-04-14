@@ -115,3 +115,14 @@ types:
     responses:
       200:
         description: Message successfully sent to Slack channel.
+
+/alerts:
+  post:
+    description: Save alert information to database for further analysis and processing
+    body:
+      application/json:
+        type: object
+        example: !include examples/alert-example.json
+    responses:
+      200:
+        description: Saved alert information to the database for further analysis and processing.
