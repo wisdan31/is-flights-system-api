@@ -223,4 +223,7 @@ ErrorUtils::getErrorStructure(
 			<mongo:query ><![CDATA[#[{"countryCode": payload.countryCode}]]]></mongo:query>
 		</mongo:update-documents>
 	</sub-flow>
+	<sub-flow name="sendSlackMessage" doc:id="943838ad-038d-4207-a7ea-0dc4dd870285" >
+		<http:request doc:name="POST hooks.slack.com" doc:id="36fdf463-c983-4b7f-9cb8-bad81aa3755e" url="${secure::slack.webhook_url}" method="POST"/>
+	</sub-flow>
 </mule>
