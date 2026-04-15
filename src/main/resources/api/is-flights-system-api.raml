@@ -90,6 +90,7 @@ types:
         description: Weather information successfully saved to the database.
 
 /deadLettersOffice:
+
   post:
     description: Save failed message to database for further analysis and processing
     body:
@@ -99,3 +100,30 @@ types:
     responses:
       200:
         description: Saved failed message to the database for further analysis and processing.
+
+/slack:
+  post:
+    description: Send message to Slack #alerts channel
+    body:
+      application/json:
+        type: object
+        properties:
+          text:
+            required: true
+            type: string
+            description: The message to be sent to the Slack channel.
+            example: "Flight UA123 is delayed due to weather conditions."
+    responses:
+      200:
+        description: Message successfully sent to Slack channel.
+
+/alerts:
+  post:
+    description: Save alert information to database for further analysis and processing
+    body:
+      application/json:
+        type: object
+        example: !include examples/alert-example.json
+    responses:
+      200:
+        description: Saved alert information to the database for further analysis and processing.
