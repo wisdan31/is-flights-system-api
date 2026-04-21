@@ -53,6 +53,7 @@
 		<munit:behavior >
 			<munit-tools:mock-when doc:name="Mock when" doc:id="f50c5c0d-5fcd-46ed-8948-ec5d659ad704" processor="mongo:find-documents">
 				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="weatherSnapshots" attributeName="collectionName" />
 					<munit-tools:with-attribute whereValue="Retrieve Weather Snapshot" attributeName="doc:name" />
 					<munit-tools:with-attribute whereValue="4702d589-ed5e-41ca-af52-bdcb2461a825" attributeName="doc:id" />
 					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
