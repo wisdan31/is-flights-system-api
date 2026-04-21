@@ -163,7 +163,7 @@ output application/json
   "countryCode": attributes.queryParams.countryCode
 }]]]></mongo:query>
 		</mongo:find-documents>
-		<validation:is-not-null doc:name="Is not null" doc:id="5a02fb3c-4371-4bef-882e-2f2f6ccd7c9e" value="#[payload[0]]" message="Country with this code doesnt exist." >
+		<validation:is-not-null doc:name="Is not null" doc:id="5a02fb3c-4371-4bef-882e-2f2f6ccd7c9e" value="#[payload[0]]" message="Country with this code doesn't exist." >
 			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NOT_FOUND" />
 		</validation:is-not-null>
 		<ee:transform doc:name="Transform Message" doc:id="d237a503-54ce-4fbc-9338-1b67e9eca8bd" >
