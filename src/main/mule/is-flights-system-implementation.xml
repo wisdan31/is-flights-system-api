@@ -81,28 +81,6 @@ payload map (flight) -> {
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<!-- [STUDIO:"getFlightById"]<flow name="getFlightById" doc:id="bdd3e4b2-1035-4336-a74b-ac1dcf8e1719">
-		<error-handler>
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="44c3445f-3584-4b9b-a00c-631bfab7d39f" type="APP:FLIGHT_NOT_FOUND">
-				<set-variable value="#[404 as Number&#93;" doc:name="httpStatus" doc:id="b5da8635-9502-4dd3-ac06-6de7f7a8e26c" variableName="httpStatus" />
-				<ee:transform doc:name="Transform Message" doc:id="7f90f7d4-7f3d-43da-b8b9-02f8d604c51b" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-import modules::ErrorUtils 
-&#45;&#45;-
-ErrorUtils::getErrorStructure(
-    {
-        description: error.description
-    },
-    error.errorType.namespace ++ ":" ++ error.errorType.identifier
-)&#93;&#93;></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<flow-ref doc:name="logError" doc:id="c7c84988-3460-4330-977b-8d8a3caea00b" name="logError"/>
-			</on-error-continue>
-		</error-handler>
-    </flow> [STUDIO] -->
 	<sub-flow name="getWeather" doc:id="bc46af63-dff9-4ba0-b699-0b887cccc2fe" >
 		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="688c88de-5f11-4983-bbff-a76904fa3311" variableName="city"/>
 		<ee:cache doc:name="Cache" doc:id="2402b5dc-aa56-432e-a20a-5df210236cc4" cachingStrategy-ref="Weather_Caching_Strategy">
@@ -197,47 +175,6 @@ output application/json
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-	<!-- [STUDIO:"getWeatherSnapshot"]<flow name="getWeatherSnapshot" doc:id="d034b64c-1dd8-4083-8c58-a0d9bf07acee" >
-		<mongo:find-documents doc:name="Retrieve Weather Snapshot" doc:id="4702d589-ed5e-41ca-af52-bdcb2461a825" config-ref="MongoDB_Config" collectionName="weatherSnapshots" fields=",">
-			<mongo:query><![CDATA[#[%dw 2.0
-output application/json
-&#45;&#45;-
-{
-  "countryCode": attributes.queryParams.countryCode
-}&#93;&#93;&#93;></mongo:query>
-		</mongo:find-documents>
-		<validation:is-not-null doc:name="Is not null" doc:id="07a1b865-eb76-479b-8078-faec5f35aba8" value="#[payload[0&#93;&#93;" message="Country with this code doesnt exist.">
-			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NOT_FOUND" />
-		</validation:is-not-null>
-		<ee:transform doc:name="Transform Message" doc:id="48c1c0c5-0c58-4476-a9f0-39ad387e8315">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
-output application/json
-&#45;&#45;-
-{ id: payload[0&#93;["_id"&#93;["\$oid"&#93; } ++ (payload[0&#93; - "_id")&#93;&#93;></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<error-handler >
-			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6b1d2026-8c97-4fac-8af6-ebaf53cf2613" type="APP:NOT_FOUND" >
-				<set-variable value="#[404 as Number&#93;" doc:name="httpStatus" doc:id="3fce4144-3395-440d-b3eb-fa90382ff118" variableName="httpStatus" />
-				<ee:transform doc:name="Transform Message" doc:id="05ba00d9-baed-4c0e-a910-5a3fd3bb8447" >
-					<ee:message >
-						<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
-import modules::ErrorUtils 
-&#45;&#45;-
-ErrorUtils::getErrorStructure(
-    {
-        description: error.description
-    },
-    error.errorType.namespace ++ ":" ++ error.errorType.identifier
-)&#93;&#93;></ee:set-payload>
-					</ee:message>
-				</ee:transform>
-				<flow-ref doc:name="logError" doc:id="02e07625-f869-47a5-9ece-88f87b494b18" name="logError" />
-			</on-error-continue>
-		</error-handler>
-	</flow> [STUDIO] -->
 	<sub-flow name="insertDeadLetter" doc:id="bbd06113-5926-4f9d-92a5-8334eb5f36b4" >
 		<mongo:insert-document doc:name="Insert document" doc:id="bc93eabb-2d37-44ca-8fcd-cc5ade0b8732" config-ref="MongoDB_Config" collectionName="deadLetters"/>
 	</sub-flow>
