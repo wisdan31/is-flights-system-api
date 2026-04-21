@@ -13,7 +13,6 @@
 			<munit-tools:mock-when doc:name="Mock when" doc:id="4006b435-7ccf-442d-83e1-f31801bd2bc0" processor="db:select">
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Select flight" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="51772ea4-5009-4f9d-862a-b64df44d24fd" attributeName="doc:id" />
 					<munit-tools:with-attribute whereValue="Database_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
