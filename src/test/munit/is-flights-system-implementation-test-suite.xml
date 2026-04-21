@@ -55,7 +55,6 @@
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="weatherSnapshots" attributeName="collectionName" />
 					<munit-tools:with-attribute whereValue="Retrieve Weather Snapshot" attributeName="doc:name" />
-					<munit-tools:with-attribute whereValue="4702d589-ed5e-41ca-af52-bdcb2461a825" attributeName="doc:id" />
 					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
