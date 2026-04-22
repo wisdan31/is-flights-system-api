@@ -78,6 +78,7 @@
 				<munit-tools:with-attributes >
 					<munit-tools:with-attribute whereValue="Retrieve Weather Snapshot" attributeName="doc:name" />
 					<munit-tools:with-attribute whereValue="MongoDB_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="weatherSnapshots" attributeName="collectionName" />
 				</munit-tools:with-attributes>
 				<munit-tools:then-return >
 					<munit-tools:payload value="#[output application/java --- []]" />
