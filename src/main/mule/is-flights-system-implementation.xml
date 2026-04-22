@@ -56,7 +56,7 @@ WHERE ID = :Id;]]></db:sql>
 			<db:input-parameters><![CDATA[#[{ Id: vars.flightId }]]]></db:input-parameters>
 		</db:select>
 		<validation:is-not-empty-collection doc:name="Is not empty collection" doc:id="d638384b-f576-46f6-8306-8e211fc54b34" message="Flight with this ID not found.">
-			<error-mapping targetType="APP:NOT_FOUND" />
+			<error-mapping targetType="APP:NOT_FOUND" sourceType="VALIDATION:EMPTY_COLLECTION"/>
 		</validation:is-not-empty-collection>
 		<set-variable value='#[{ "status": "Get flight from DB",&#10;	"fetchedRecords": sizeOf(payload)&#10;}]' doc:name="logMessage" doc:id="4003e5f3-21d5-43b0-b49b-5d5223fc9fac" variableName="logMessage" />
 		<ee:transform doc:name="Transform Message" doc:id="35d315cc-125c-4087-a7bf-27c08b1a6d32">
