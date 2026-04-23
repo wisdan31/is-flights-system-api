@@ -104,6 +104,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
+			<os:clear doc:name="Clear" doc:id="6456ba86-7435-4dc5-8bdf-c16cc0468bb4" objectStore="weather-cache-store"/>
 			<munit:set-event doc:name="Set Event" doc:id="42fdcb1e-71e0-45e1-946f-2e97078b011e" >
 				<munit:attributes value='#[{queryParams: {city: "Kyiv"}}]' />
 			</munit:set-event>
