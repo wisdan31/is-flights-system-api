@@ -40,4 +40,6 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 		<os:private-object-store alias="weather-cache-store" entryTtl="15" entryTtlUnit="MINUTES" expirationInterval="5" />
 	</ee:object-store-caching-strategy>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="d6921536-02e1-490d-938d-df35af206890" file="config/${env}-properties.yaml" key="${secure.key}" />
+	<os:object-store name="weather-cache-store" doc:name="Object store" doc:id="9c968aba-50c2-42e3-b9e2-84b669d296d0" entryTtl="20" entryTtlUnit="MINUTES" expirationInterval="10" />
+	<os:object-store name="countries-cache-store" doc:name="Object store" doc:id="8e1095fa-3e3e-4d77-8f5e-aebfcd4265cd" entryTtl="48" entryTtlUnit="HOURS" expirationInterval="24" expirationIntervalUnit="HOURS" />
 </mule>
