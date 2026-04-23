@@ -33,11 +33,9 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 			<http:query-param key="units" value="metric" />
 		</http:default-query-params>
 	</http:request-config>
-	<ee:object-store-caching-strategy name="Countries_Caching_Strategy" doc:name="Caching Strategy" doc:id="d4da9631-ea3c-42b4-a362-561d307ae58f" keyGenerationExpression="#[vars.subregion]" >
-		<os:private-object-store entryTtl="24" entryTtlUnit="HOURS" expirationInterval="12" expirationIntervalUnit="HOURS" alias="countries-cache-store"/>
+	<ee:object-store-caching-strategy name="Countries_Caching_Strategy" doc:name="Caching Strategy" doc:id="d4da9631-ea3c-42b4-a362-561d307ae58f" keyGenerationExpression="#[vars.subregion]" objectStore="countries-cache-store">
 	</ee:object-store-caching-strategy>
-	<ee:object-store-caching-strategy name="Weather_Caching_Strategy" doc:name="Caching Strategy" doc:id="97fd0607-401b-466c-b87d-560040e4cec7" keyGenerationExpression="#[vars.city]">
-		<os:private-object-store alias="weather-cache-store" entryTtl="15" entryTtlUnit="MINUTES" expirationInterval="5" />
+	<ee:object-store-caching-strategy name="Weather_Caching_Strategy" doc:name="Caching Strategy" doc:id="97fd0607-401b-466c-b87d-560040e4cec7" keyGenerationExpression="#[vars.city]" objectStore="weather-cache-store">
 	</ee:object-store-caching-strategy>
 	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="d6921536-02e1-490d-938d-df35af206890" file="config/${env}-properties.yaml" key="${secure.key}" />
 	<os:object-store name="weather-cache-store" doc:name="Object store" doc:id="9c968aba-50c2-42e3-b9e2-84b669d296d0" entryTtl="20" entryTtlUnit="MINUTES" expirationInterval="10" />
