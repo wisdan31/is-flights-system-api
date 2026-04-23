@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xsi:schemaLocation="
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
 	<munit:config name="is-flights-system-implementation-test-suite.xml" />
 	<munit:test name="getFlightById-success-test" doc:id="37c47fef-6738-48b6-a8d3-a678e6bb6b90" description="Test">
 		<munit:behavior >
@@ -91,6 +92,36 @@
 			</munit:set-event>
 			<flow-ref doc:name="Flow-ref to getWeatherSnapshot" doc:id="e36f63df-ed55-4bbb-917a-29407f94914b" name="getWeatherSnapshot"/>
 		</munit:execution>
+	</munit:test>
+	<munit:test name="getWeather-success-test" doc:id="6b45261a-c207-4167-92be-bf74e5563cbe" description="Test caching strategy">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="GET /weather" doc:id="04456bfc-3504-4b7e-9f9f-77168bfe2da8" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="openWeather" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="OpenWeather_Request_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="/weather" attributeName="path" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="42fdcb1e-71e0-45e1-946f-2e97078b011e" >
+				<munit:attributes value='#[{queryParams: {city: "Kyiv"}}]' />
+			</munit:set-event>
+			<flow-ref doc:name="getWeather_cacheMiss" doc:id="cc6a5793-2c2a-4289-baa2-ace910fdd208" name="getWeather"/>
+			<munit:set-event doc:name="Set Event" doc:id="bc31905f-ee42-4253-ac78-deb7d5c634ab">
+			<munit:attributes value='#[{queryParams: {city: "Kyiv"}}]' />
+		</munit:set-event>
+			<flow-ref doc:name="getWeather_cacheHit" doc:id="cf0183d0-cdf4-4be4-8596-3365fb679cff" name="getWeather" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="GET /weather" doc:id="f6bde939-d8a4-4067-b6eb-34993a3d5872" processor="http:request" times="1">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="openWeather" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="OpenWeather_Request_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="/weather" attributeName="path" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+		</munit:validation>
 	</munit:test>
 
 
