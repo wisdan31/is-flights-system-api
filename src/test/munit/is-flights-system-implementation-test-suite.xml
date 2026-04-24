@@ -107,7 +107,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
-			<os:clear doc:name="Clear" doc:id="6456ba86-7435-4dc5-8bdf-c16cc0468bb4" objectStore="weather-cache-store"/>
+			<os:clear doc:name="weather-cache-store" doc:id="6456ba86-7435-4dc5-8bdf-c16cc0468bb4" objectStore="weather-cache-store"/>
 			<munit:set-event doc:name="Set Event" doc:id="42fdcb1e-71e0-45e1-946f-2e97078b011e" >
 				<munit:attributes value='#[{queryParams: {city: "Kyiv"}}]' />
 			</munit:set-event>
@@ -142,14 +142,14 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 		</munit:behavior>
 		<munit:execution >
 			<os:clear doc:name="countries-cache-store" doc:id="20390201-ff05-4693-b251-db7b7f57a39b" objectStore="countries-cache-store" />
-			<munit:set-event doc:name="subregion" doc:id="c3ff17d6-1ff3-4602-9e7a-e3ce2cfd5efb">
+			<munit:set-event doc:name="" doc:id="c3ff17d6-1ff3-4602-9e7a-e3ce2cfd5efb">
 				<munit:attributes value='#[{queryParams: {subregion: "Eastern Europe"}}]' />
 			</munit:set-event>
-			<flow-ref doc:name="getWeather_cacheMiss" doc:id="b2f53add-0cce-4ca5-8000-aeace123e1e7" name="getCountries"/>
+			<flow-ref doc:name="getCountries_cacheMiss" doc:id="b2f53add-0cce-4ca5-8000-aeace123e1e7" name="getCountries"/>
 			<munit:set-event doc:name="" doc:id="cfeca949-3594-4863-8da2-dc350a7ec5cf" >
 				<munit:attributes value='#[{queryParams: {subregion: "Eastern Europe"}}]' />
 			</munit:set-event>
-			<flow-ref doc:name="getWeather_cacheHit" doc:id="4366c576-f738-4c80-b9f2-e6eddb2cb56a" name="getCountries" />
+			<flow-ref doc:name="getCountries_cacheHit" doc:id="4366c576-f738-4c80-b9f2-e6eddb2cb56a" name="getCountries" />
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:verify-call doc:name="REST Countries" doc:id="f138422a-50ab-4342-b08c-9fa8e5e6df3a" processor="http:request" times="1">
