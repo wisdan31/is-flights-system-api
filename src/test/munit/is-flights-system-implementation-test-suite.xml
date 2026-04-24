@@ -135,6 +135,9 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 					<munit-tools:with-attribute whereValue="RESTCountries_Request_Config" attributeName="config-ref" />
 					<munit-tools:with-attribute whereValue="/subregion/{subregion}" attributeName="path" />
 				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/java --- readUrl('classpath://mocks/mock-restCountries-easternEurope-success-payload.json', 'application/json')]" />
+				</munit-tools:then-return>
 			</munit-tools:mock-when>
 		</munit:behavior>
 		<munit:execution >
