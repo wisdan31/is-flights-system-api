@@ -1,0 +1,94 @@
+[
+    {
+        "capitalInfo": {
+            "latlng": [
+                50.43,
+                30.52
+            ]
+        },
+        "name": {
+            "common": "Ukraine",
+            "official": "Ukraine",
+            "nativeName": {
+                "ukr": {
+                    "official": "Україна",
+                    "common": "Україна"
+                }
+            }
+        },
+        "cca2": "UA",
+        "capital": [
+            "Kyiv"
+        ]
+    },
+    {
+        "capitalInfo": {
+            "latlng": [
+                53.9,
+                27.57
+            ]
+        },
+        "name": {
+            "common": "Belarus",
+            "official": "Republic of Belarus",
+            "nativeName": {
+                "bel": {
+                    "official": "Рэспубліка Беларусь",
+                    "common": "Белару́сь"
+                },
+                "rus": {
+                    "official": "Республика Беларусь",
+                    "common": "Беларусь"
+                }
+            }
+        },
+        "cca2": "BY",
+        "capital": [
+            "Minsk"
+        ]
+    },
+    {
+        "capitalInfo": {
+            "latlng": [
+                55.75,
+                37.6
+            ]
+        },
+        "name": {
+            "common": "Russia",
+            "official": "Russian Federation",
+            "nativeName": {
+                "rus": {
+                    "official": "Российская Федерация",
+                    "common": "Россия"
+                }
+            }
+        },
+        "cca2": "RU",
+        "capital": [
+            "Moscow"
+        ]
+    },
+    {
+        "capitalInfo": {
+            "latlng": [
+                47.01,
+                28.9
+            ]
+        },
+        "name": {
+            "common": "Moldova",
+            "official": "Republic of Moldova",
+            "nativeName": {
+                "ron": {
+                    "official": "Republica Moldova",
+                    "common": "Moldova"
+                }
+            }
+        },
+        "cca2": "MD",
+        "capital": [
+            "Chișinău"
+        ]
+    }
+]
