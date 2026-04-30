@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mycompany</groupId>
@@ -200,8 +198,8 @@
 
 	<repositories>
 		<repository>
-			<id>anypoint-exchange-v3</id>
-			<name>Anypoint Exchange</name>
+			<id>anypoint-exchange-v3-public</id>
+			<name>Anypoint Exchange Public</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
@@ -209,6 +207,12 @@
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
 			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>anypoint-exchange-v3</id>
+			<name>Anypoint Exchange V3</name>
+			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
@@ -224,5 +228,19 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>cloudhub-deploy</id>
+			<repositories>
+				<repository>
+					<id>anypoint-exchange-v3</id>
+					<name>My Private Exchange</name>
+					<url>https://maven.anypoint.mulesoft.com/api/v3/organizations/3a6ebcf3-a822-4644-a801-6adb99217653/maven</url>
+					<layout>default</layout>
+				</repository>
+			</repositories>
+		</profile>
+	</profiles>
 
 </project>
