@@ -187,7 +187,9 @@ output application/json
 		<http:request doc:name="POST hooks.slack.com" doc:id="36fdf463-c983-4b7f-9cb8-bad81aa3755e" url="${secure::slack.webhook_url}" method="POST"/>
 	</sub-flow>
 	<sub-flow name="saveAlertToDb" doc:id="5242d2d6-0adf-454f-81f2-e40e17cecced" >
-		<mongo:insert-document collectionName="weatherAlerts" doc:name="Insert document" doc:id="a300d17f-7171-4f3d-980c-ab147d2ce234" config-ref="MongoDB_Config"/>
+		<mongo:update-documents doc:name="Upsert document" doc:id="8e679632-8706-4599-b289-d5cb86363eb8" config-ref="MongoDB_Config" collectionName="weatherAlerts" upsert="true">
+			<mongo:query ><![CDATA[#[{"timestamp": payload.timestamp, "city": payload.city}]]]></mongo:query>
+		</mongo:update-documents>
 		<ee:transform doc:name="Transform Message" doc:id="32993231-f098-4df0-a444-331495949f5b" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
