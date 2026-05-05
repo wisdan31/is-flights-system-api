@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<sub-flow name="getWeather" doc:id="2f4c458c-c752-49b9-826f-8e3d698af97a" >
+		<set-variable value="#[attributes.queryParams.city]" doc:name="city" doc:id="696f5886-85c2-47d8-bc73-5af4e36d7a32" variableName="city" />
+		<ee:cache doc:name="Cache" doc:id="885268f3-8246-4c9e-a6da-72f9b9c86c64" cachingStrategy-ref="Weather_Caching_Strategy" >
+			<http:request doc:name="openWeather" doc:id="c986a052-b214-4323-8d62-186b6442989a" config-ref="OpenWeather_Request_Config" path="/weather" >
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"q" : vars.city
+}]]]></http:query-params>
+			</http:request>
+		</ee:cache>
+		<ee:transform doc:name="Transform Message" doc:id="94f4e671-eab1-4b69-b0fc-35f8720a7426" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	location: {
+		city: payload.name,
+		lon: payload.coord.lon,
+		lat: payload.coord.lat
+	},
+	weather: {
+		main: payload.weather[0].main,
+		description: payload.weather[0].description,
+		temperature: payload.main.temp,
+		pressure: payload.main.pressure,
+		humidity: payload.main.humidity,
+		visibility: payload.visibility,
+		wind: {
+			speed: payload.wind.speed,
+			deg: payload.wind.deg
+		},
+		snow: payload.snow."1h" default 0,
+		clouds: payload.clouds.all
+	}
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getCountries" doc:id="8970b5a0-0db1-4d0d-91a0-174dd54d64de" >
+		<set-variable value="#[attributes.queryParams.subregion]" doc:name="subregion" doc:id="2250045a-33a8-479d-89b1-6a44429ad686" variableName="subregion" />
+		<ee:cache doc:name="Cache" doc:id="b5f7aa8a-b532-42f7-83d2-fed19530f191" cachingStrategy-ref="Countries_Caching_Strategy" >
+			<http:request doc:name="REST Countries" doc:id="71d1c691-41ed-4f60-a635-6d63b73f54a7" config-ref="RESTCountries_Request_Config" path="/subregion/{subregion}" >
+				<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	"subregion" : attributes.queryParams.subregion
+}]]]></http:uri-params>
+				<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"fields" : "name,capital,capitalInfo,cca2"
+}]]]></http:query-params>
+			</http:request>
+		</ee:cache>
+		<ee:transform doc:name="Transform Message" doc:id="53aa51d3-3a8b-4d26-b5fb-3ced8206c64a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map (country, index) -> {
+    name: country.name.common,
+    capital: {
+        name: country.capital[0], 
+        lat: country.capitalInfo.latlng[0],
+        lng: country.capitalInfo.latlng[1]
+    },
+    code: upper(country.cca2)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getWeatherSnapshot" doc:id="d8c9c4b6-12ca-44bd-a81b-3960964481f7" >
+		<mongo:find-documents collectionName="weatherSnapshots" fields="," doc:name="Retrieve Weather Snapshot" doc:id="2072ed6b-7d35-43ed-8e09-02ea2ef2732e" config-ref="MongoDB_Config" >
+			<mongo:query ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "countryCode": attributes.queryParams.countryCode
+}]]]></mongo:query>
+		</mongo:find-documents>
+		<validation:is-not-null doc:name="Is not null" doc:id="50ba95d0-3b1c-42db-8ea1-f8ea8a58a105" value="#[payload[0]]" message="Country with this code doesn't exist." >
+			<error-mapping sourceType="VALIDATION:NULL" targetType="APP:NOT_FOUND" />
+		</validation:is-not-null>
+		<ee:transform doc:name="Transform Message" doc:id="88b872b9-9bca-4f21-a0d2-6e2312c89a91" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{ id: payload[0]["_id"]["\$oid"] } ++ (payload[0] - "_id")]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="insertDeadLetter" doc:id="5a2eb324-9900-4a0d-873b-b3887fc0bc9d" >
+		<mongo:insert-document collectionName="deadLetters" doc:name="Insert document" doc:id="c35e2eae-1891-49f7-8098-4c91af3215a0" config-ref="MongoDB_Config" />
+	</sub-flow>
+	<sub-flow name="upsertWeatherSnapshot" doc:id="a14149ab-5133-43a8-b7b6-d3ef03c1b824" >
+		<mongo:update-documents collectionName="weatherSnapshots" doc:name="Upsert document" doc:id="876c4d17-e22c-4a2b-95b0-5ee2ac095d1c" config-ref="MongoDB_Config" upsert="true" >
+			<mongo:query ><![CDATA[#[{"countryCode": payload.countryCode}]]]></mongo:query>
+		</mongo:update-documents>
+	</sub-flow>
+	<sub-flow name="sendSlackMessage" doc:id="73d2f411-0e12-42ba-b613-cbf9f146cf29" >
+		<http:request doc:name="POST hooks.slack.com" doc:id="4a800372-6f6e-46df-9ca4-38e8bfa0f7b1" method="POST" url="${secure::slack.webhook_url}" />
+	</sub-flow>
+	<sub-flow name="saveAlertToDb" doc:id="c3eeddc1-f1ea-495a-8bd3-fed67997b373" >
+		<mongo:update-documents collectionName="weatherAlerts" doc:name="Upsert document" doc:id="71854b46-2044-49c5-83f1-286d6bcf557a" config-ref="MongoDB_Config" upsert="true" >
+			<mongo:query ><![CDATA[#[{"timestamp": payload.timestamp, "city": payload.city}]]]></mongo:query>
+		</mongo:update-documents>
+		<ee:transform doc:name="Transform Message" doc:id="8d839c92-7dd8-4115-b740-dddc61bcdd1c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Successfully saved alert to DB."
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
